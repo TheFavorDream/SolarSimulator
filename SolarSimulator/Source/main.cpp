@@ -8,14 +8,12 @@
 		Made with C++ and OpenGL as well as some other libraries like glfw and etc.
 */
 
-
-
-#include <iostream>
-
+#include "Application/Application.h"
 
 int main(int argc, char** arvg)
 {
-	std::cout << "Hello, World\n";
-	std::cin.get();
+	Simulator::Application* App = new Simulator::Application(1000, 500, "Solar Simulator");
+	App->Run();
+	delete App;
 	return 0;
 }

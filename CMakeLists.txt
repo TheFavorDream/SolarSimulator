@@ -35,14 +35,9 @@ set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 
 
-add_subdirectory(./SolarSimulator/3rdParty/glfw)			#window oppener
-#add_subdirectory(thirdparty/glad)				#opengl loader
-#add_subdirectory(thirdparty/stb_image)			#loading immaged
-#add_subdirectory(thirdparty/stb_truetype)		#loading ttf files
-##add_subdirectory(thirdparty/enet-1.3.17)		#networking
-#add_subdirectory(thirdparty/raudio)				#audio
-#add_subdirectory(thirdparty/glm)				#math
-#add_subdirectory(thirdparty/imgui-docking)		#ui
+add_subdirectory(./SolarSimulator/3rdParty/glfw)
+add_subdirectory(./SolarSimulator/3rdParty/glew/build/cmake)
+add_subdirectory(./SolarSimulator/3rdParty/glm)
 
 
 
@@ -53,12 +48,11 @@ add_executable("${CMAKE_PROJECT_NAME}")
 
 set_property(TARGET "${CMAKE_PROJECT_NAME}" PROPERTY CXX_STANDARD 17)
 
-
 target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC GLFW_INCLUDE_NONE=1) 
 
 if(PRODUCTION_BUILD)
 	# setup the ASSETS_PATH macro to be in the root folder of your exe
-	target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC RESOURCES_PATH="./resources/") 
+	target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC RESOURCES_PATH="\"./resources/"\") 
 
 	# remove the option to debug asserts.
 	target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC PRODUCTION_BUILD=1) 
@@ -66,7 +60,7 @@ if(PRODUCTION_BUILD)
 
 else()
 	# This is useful to get an ASSETS_PATH in your IDE during development
-	target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC RESOURCES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/resources/")
+	target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC RESOURCES_PATH="\"${CMAKE_CURRENT_SOURCE_DIR}/resources/"\")
 	target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC PRODUCTION_BUILD=0) 
 	target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC DEVELOPLEMT_BUILD=1) 
 
@@ -80,6 +74,7 @@ if(MSVC) # If using the VS compiler...
 	target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC _CRT_SECURE_NO_WARNINGS)
 
 	set_target_properties("${CMAKE_PROJECT_NAME}" PROPERTIES LINK_FLAGS "/SUBSYSTEM:CONSOLE /ENTRY:mainCRTStartup") #no console
+	target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC WINDOWS) 
 	
 	#set_property(TARGET "${CMAKE_PROJECT_NAME}" PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDebug<$<CONFIG:Debug>:Debug>")
 	#set_property(TARGET "${CMAKE_PROJECT_NAME}" PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
@@ -92,5 +87,9 @@ if (WIN32)
 endif()
 
 
-target_include_directories("${CMAKE_PROJECT_NAME}" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/SolarSimulator/include/")
-target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE glfw )
+target_include_directories("${CMAKE_PROJECT_NAME}" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/SolarSimulator/Source")
+target_include_directories("${CMAKE_PROJECT_NAME}" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/SolarSimulator/3rdParty")
+target_include_directories("${CMAKE_PROJECT_NAME}" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/SolarSimulator/3rdParty/glew/include")
+
+
+target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE glfw glew)

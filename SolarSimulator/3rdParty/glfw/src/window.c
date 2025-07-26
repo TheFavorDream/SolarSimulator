@@ -497,6 +497,7 @@ GLFWAPI void glfwDestroyWindow(GLFWwindow* handle)
 
     _glfw_free(window->title);
     _glfw_free(window);
+	window = NULL;
 }
 
 GLFWAPI int glfwWindowShouldClose(GLFWwindow* handle)

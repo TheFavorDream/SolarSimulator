@@ -1,20 +1,27 @@
 #include "Application.h"
-#include "Application.h"
-#include "Application.h"
+
 
 namespace Simulator
 {
 	Application::Application(const int pWidth, const int pHeight, const char * pTitle)
 	{
-		std::cout << "Application Constructed\n";
+		m_Log.SetInfo("Application Started");
+		m_Window = Window::CreateWindowObject(pWidth, pHeight, pTitle);
+
+		
 	}
 	Application::~Application()
 	{
-		std::cout << "Application Destructed\n";
-		std::cin.get();
+		delete m_Window;
 	}
+
 	void Application::Run()
 	{
-		std::cout << "Application Running\n";
+		while (m_Window->ShouldWindowClose())
+		{
+			Renderer::Get()->Draw();
+			glfwPollEvents();
+			m_Window->WindowUpdate();
+		}
 	}
 };

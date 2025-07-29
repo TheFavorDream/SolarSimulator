@@ -22,6 +22,7 @@ namespace Simulator
 		{
 			Log::GetSelf()->SetError("Unable to Init Glew");
 		}
+		glEnable(GL_DEPTH_TEST);
 	}
 
 	Renderer::~Renderer()
@@ -31,7 +32,7 @@ namespace Simulator
 
 	void Renderer::Draw()
 	{
-		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glClearColor(0.2f, 0.3f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 };

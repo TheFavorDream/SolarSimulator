@@ -63,6 +63,8 @@ namespace Simulator
 	void Window::WindowUpdate()
 	{
 		glfwSwapBuffers(m_Window);
+		glfwGetWindowSize(m_Window, (int*)&m_Width, (int*)&m_Height);
+		glViewport(0, 0, m_Width, m_Height);
 	}
 
 	int Window::OpenWindow()

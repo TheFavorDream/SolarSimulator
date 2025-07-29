@@ -22,6 +22,9 @@ namespace Simulator
 		void EnableCaching(bool pEnable);
 		void SetLoggingLevel(LOG_ENUM pLevel); //Defualt Level is 3 which means all log types get printed
 
+		void DebugPrint(const std::string& pContent, char End='\n', bool Headline=true);
+		void DebugPrint(const char* pContent, char End = '\n', bool Headline = true);
+
 		void SetInfo(const char* pMessage, ...);
 		void SetWarning(const char* pMessage, ...);
 		void SetError(const char* pMessage, ...);

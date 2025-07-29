@@ -1,6 +1,8 @@
+#pragma once
 #include "VertexArray.h"
 #include "VertexBuffer.h"
 #include "ElementBuffer.h"
+#include "../Renderer/Shader.h"
 
 #include <vector>
 
@@ -15,7 +17,7 @@ namespace Simulator
 		Mesh(const std::vector<Vertex>& pVertices, const std::vector<uint32>& pIndices);
 		~Mesh();
 
-		void Render();
+		void Render(const Shader& pShader);
 		void SetUp(const std::vector<Vertex>& pVertices, const std::vector<uint32>& pIndices);
 		void Free();
 

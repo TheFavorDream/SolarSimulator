@@ -18,8 +18,10 @@ namespace Simulator
 		Free();
 	}
 
-	void Mesh::Render()
+	void Mesh::Render(const Shader& pShader)
 	{
+		pShader.Bind();
+
 		m_VAO.Bind();
 		glDrawElements(GL_TRIANGLES, m_EBO.GetCount(), GL_UNSIGNED_INT, 0);
 		m_VAO.Unbind();
@@ -30,6 +32,7 @@ namespace Simulator
 		m_Vertices = pVertices;
 		m_Indices = pIndices;
 
+		m_VAO.CreateVertexArray();
 		m_VAO.Bind();
 
 		m_VBO.InitBuffer(pVertices);

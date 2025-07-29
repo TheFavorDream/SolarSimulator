@@ -6,7 +6,6 @@ namespace Simulator
 
 	VertexArray::VertexArray()
 	{
-		glGenVertexArrays(1, &m_ArrayID);
 	}
 
 	VertexArray::VertexArray(VertexArray && Other)
@@ -17,6 +16,16 @@ namespace Simulator
 	}
 
 	VertexArray::~VertexArray()
+	{
+		DeleteVertexArray();
+	}
+
+	void VertexArray::CreateVertexArray()
+	{
+		glGenVertexArrays(1, &m_ArrayID);
+	}
+
+	void VertexArray::DeleteVertexArray()
 	{
 		Unbind();
 		glDeleteVertexArrays(1, &m_ArrayID);

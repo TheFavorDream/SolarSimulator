@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core.h"
+#include "glew/include/GL/glew.h"
 #include "LogSys/Log.h"
 #include "glfw/glfw3.h"
 #include <iostream>

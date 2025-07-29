@@ -32,6 +32,18 @@ namespace Simulator
 		m_Level = pLevel;
 	}
 
+
+	void Log::DebugPrint(const std::string & pContent, char End, bool Headline)
+	{
+		DebugPrint(pContent.c_str(), End, Headline);
+	}
+
+	void Log::DebugPrint(const char * pContent, char End, bool Headline)
+	{
+		SetTextColor(GREEN);
+		std::cout <<  ((Headline)? "[Debug]" : "" ) << pContent << End;
+	}
+
 	void Log::SetInfo(const char * pMessage, ...)
 	{
 
@@ -125,6 +137,9 @@ namespace Simulator
 				case 'c':
 					Res += va_arg(plist, const  char*);
 					break; 
+				case 's':
+					Res += va_arg(plist, std::string);
+					break;
 				default:
 					Res += '%';
 					Res += pString[i + 1];

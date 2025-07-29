@@ -1,3 +1,4 @@
+#pragma once
 #include "../Core.h"
 #include "../../3rdParty/glew/include/GL/glew.h"
 #include "VertexBuffer.h"
@@ -35,6 +36,9 @@ namespace Simulator
 		 VertexArray();
 		 VertexArray(VertexArray&& Other);
 		~VertexArray();
+
+		void CreateVertexArray();
+		void DeleteVertexArray();
 
 		void Bind() const;
 		void Unbind() const;

@@ -26,6 +26,8 @@ namespace Simulator
 	{
 		Init();
 		OpenWindow();
+
+		glfwSetCursorPosCallback(m_Window, CursorCallBack);
 	}
 
 	Window::~Window()
@@ -69,6 +71,8 @@ namespace Simulator
 
 	int Window::OpenWindow()
 	{
+		glfwWindowHint(GLFW_SAMPLES, 8);
+
 		m_Window = glfwCreateWindow(m_Width, m_Height, m_Title, NULL, NULL);
 		if (!m_Window)
 		{
@@ -94,5 +98,11 @@ namespace Simulator
 		return 0;
 	}
 
+
+	void CursorCallBack(GLFWwindow * pWindow, double pX, double pY)
+	{
+		Window::GetWindowInstance()->m_CursorX = pX;
+		Window::GetWindowInstance()->m_CursorY = pY;
+	}
 
 };

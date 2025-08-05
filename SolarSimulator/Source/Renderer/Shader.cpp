@@ -118,7 +118,7 @@ namespace Simulator
 		glProgramUniform3i(m_ProgramID, Location, pValue1, pValue2, pValue3);
 	}
 
-	void Shader::SetUniformMat4(const char * pName, glm::mat4 & pValue)
+	void Shader::SetUniformMat4(const char * pName, glm::mat4 & pValue) const
 	{
 		int Location = GetUniformLocation(pName);
 		if (Location < 0)

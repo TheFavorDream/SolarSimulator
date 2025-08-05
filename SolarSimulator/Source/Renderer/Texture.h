@@ -1,0 +1,85 @@
+/*
+
+	Created by Pooya Alizadeh (The Voltage)
+	Purpose:
+		Takes care of Texture Loading.
+
+*/
+
+#pragma once
+#include "../Core.h"
+#include "../LogSys/Log.h"
+#include "../../3rdParty/glew/include/GL/glew.h"
+#include "../../3rdParty/stb_image/stb_image.h"
+#include <string>
+#include <vector>
+
+namespace Simulator
+{
+	class Texture
+	{
+	public:
+
+		Texture() = default;
+
+		virtual ~Texture() ;
+
+
+		virtual int CreateTexture(std::string pFilePath, bool pKeepCache=false) = 0;
+		virtual int CreateTexture(unsigned char* pData, uint32 pWidth, uint32 pHegith, uint32 pChannels) = 0 ;
+		virtual int FreeTexture() = 0;
+
+		virtual void Bind(uint32 Slot=0) const = 0;
+		virtual void Unbind() const = 0;
+
+		inline uint32 GetWidth()  { return m_Width; }
+		inline uint32 GetHeight() { return m_Height; }
+
+	public:
+		static uint32 GetTextureLimit();
+		static GLenum GetColorChannel(uint32 pChannels);
+	protected:
+		int32 m_Width, m_Height, m_Channels;
+		uint32 m_TextureID = 0;
+		unsigned char* m_Data = NULL;
+		mutable uint32 m_CurrentSlot;
+	};
+
+
+	class Texture2D : public Texture
+	{
+	public:
+
+		 Texture2D() = default;
+		 Texture2D(std::string pPath);
+		~Texture2D();
+
+		int CreateTexture(std::string pFilePath, bool pKeepCache = false) override;
+		int CreateTexture(unsigned char* pData, uint32 pWidth, uint32 pHegith, uint32 pChannels) override;
+		int FreeTexture() override;
+
+		void Bind(uint32 Slot = 0) const override;
+		void Unbind() const override;
+
+	private:
+		std::string m_Path;
+	};
+
+
+
+	class TextureCube : public Texture
+	{
+	public:
+		 TextureCube() = default;
+		 TextureCube(TextureCube&& Other);
+		~TextureCube();
+
+		int CreateTexture(std::string pDirectoryPath, std::vector<std::string> pFiles, bool pKeepCache=false);
+		int FreeTexture() override;
+
+		void Bind(uint32 Slot = 0) const override;
+		void Unbind() const override;
+
+	private:
+	};
+};

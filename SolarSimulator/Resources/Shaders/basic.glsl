@@ -17,7 +17,7 @@ void main()
 {
 	aNormals = Normals;
 	aTexCoords = TexCoords;
-	gl_Position =  Model * vec4(Position, 1.0f);
+	gl_Position = Projection * View * Model * vec4(Position, 1.0f);
 }
 
 #type:Fragment
@@ -28,7 +28,10 @@ in vec3 aNormals;
 in vec2 aTexCoords;
 
 out vec4 FragColor;
+
+uniform sampler2D Texture;
+
 void main ()
 {
-	FragColor=vec4(0.5f, 0.0f, 0.9f, 1.0f);
+	FragColor = texture(Texture, aTexCoords);
 }

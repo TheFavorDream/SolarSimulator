@@ -4,7 +4,9 @@
 #include "Window/Window.h"
 #include "LogSys/Log.h"
 #include "Renderer/Shader.h"
+#include "Renderer/Texture.h"
 #include "Mesh/Mesh.h"
+#include "Camera/Camera.h"
 #include "../3rdParty/glm/mat4x4.hpp"
 #include "../3rdParty/glm/glm.hpp"
 #include "../3rdParty/glm/gtc/type_ptr.hpp"
@@ -31,13 +33,15 @@ namespace Simulator
 
 		Shader m_Test;
 		Mesh Triangle;
+		Camera m_Camera;
+		Texture2D m_Texture;
 
 		std::vector<Vertex> Vertices =
 		{
-			{glm::vec3(-0.5f,  0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(0.0f)},
-			{glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(0.0f)},
-			{glm::vec3( 0.5f,  0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(0.0f)},
-			{glm::vec3( 0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(0.0f)},
+			{glm::vec3(-0.5f,  0.5f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f)},
+			{glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 1.0f)},
+			{glm::vec3( 0.5f,  0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 0.0f)},
+			{glm::vec3( 0.5f, -0.5f, 0.0f), glm::vec3(0.5f, 1.0f, 0.2f), glm::vec2(1.0f, 1.0f)},
 
 		};
 		std::vector<uint32> Indices = {0, 1, 2, 1, 2, 3};

@@ -5,6 +5,7 @@
 namespace Simulator
 {
 	Application::Application(const int pWidth, const int pHeight, const char * pTitle)
+		: m_Camera(0.1f, 800.0f, 45.0f, 2.0f)
 	{
 		m_Log.SetInfo("Application Started");
 		m_Window = Window::CreateWindowObject(pWidth, pHeight, pTitle);
@@ -33,24 +34,27 @@ namespace Simulator
 	{
 		m_Test.CreateShader("C:\\Users\\TheVoltage\\Desktop\\SolarSimulator\\SolarSimulator\\Resources\\Shaders\\basic.glsl");
 		Triangle.SetUp(Vertices, Indices);
-
+		m_Texture.CreateTexture("C:\\Users\\TheVoltage\\Desktop\\SolarSimulator\\SolarSimulator\\Resources\\Asset\\container.png");
 		Model = glm::scale(Model, glm::vec3(0.5f));
 	}
 	void Application::Input()
 	{
+		m_Camera.HandleCameraMovement();
+		m_Camera.HandleMouseMovement();
 		glfwPollEvents();
 	}
 
 	void Application::Update()
 	{
-		Model = glm::rotate(Model, glm::radians(0.01f), glm::vec3(0.0f, 0.0f, 1.0f));
+		//Model = glm::rotate(Model, glm::radians(0.01f), glm::vec3(0.0f, 0.0f, 1.0f));
 		m_Test.SetUniformMat4("Model", Model);
 	}
 
 	void Application::Render()
 	{
 		Renderer::Get()->Draw();
-		Triangle.Render(m_Test);
+		m_Texture.Bind(0);
+		Triangle.Render(m_Test, m_Camera);
 		m_Window->WindowUpdate();
 	}
 };

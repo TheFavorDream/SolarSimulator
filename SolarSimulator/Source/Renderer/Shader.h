@@ -40,7 +40,7 @@ namespace Simulator
 		void SetUniformInt2(const char* pName, int32 pValue1, int32 pValue2) const;
 		void SetUniformInt3(const char* pName, int32 pValue1, int32 pValue2, int32 pValue3) const;
 
-		void SetUniformMat4(const char* pName, glm::mat4& pValue);
+		void SetUniformMat4(const char* pName, glm::mat4& pValue) const;
 
 		inline const std::string& GetShaderPath() { return m_ShaderPath; }
 

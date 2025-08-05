@@ -18,9 +18,11 @@ namespace Simulator
 		Free();
 	}
 
-	void Mesh::Render(const Shader& pShader)
+	void Mesh::Render(const Shader& pShader, Camera& pCamera)
 	{
 		pShader.Bind();
+		pShader.SetUniformMat4("View", pCamera.GetView());
+		pShader.SetUniformMat4("Projection", pCamera.GetProjection());
 
 		m_VAO.Bind();
 		glDrawElements(GL_TRIANGLES, m_EBO.GetCount(), GL_UNSIGNED_INT, 0);

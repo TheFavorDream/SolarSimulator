@@ -3,6 +3,7 @@
 #include "VertexBuffer.h"
 #include "ElementBuffer.h"
 #include "../Renderer/Shader.h"
+#include "../Camera/Camera.h"
 
 #include <vector>
 
@@ -17,7 +18,7 @@ namespace Simulator
 		Mesh(const std::vector<Vertex>& pVertices, const std::vector<uint32>& pIndices);
 		~Mesh();
 
-		void Render(const Shader& pShader);
+		void Render(const Shader& pShader, Camera& pCamera);
 		void SetUp(const std::vector<Vertex>& pVertices, const std::vector<uint32>& pIndices);
 		void Free();
 

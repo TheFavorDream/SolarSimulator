@@ -23,6 +23,7 @@ namespace Simulator
 			Log::GetSelf()->SetError("Unable to Init Glew");
 		}
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_MULTISAMPLE);
 	}
 
 	Renderer::~Renderer()
@@ -32,7 +33,16 @@ namespace Simulator
 
 	void Renderer::Draw()
 	{
-		glClearColor(0.2f, 0.3f, 0.1f, 1.0f);
+		glClearColor(m_ClearColor.x, m_ClearColor.y, m_ClearColor.z,  1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
+
+	void Renderer::SetClearColor(glm::vec3 & pClearColor)
+	{
+		m_ClearColor = pClearColor;
+	}
+	void Renderer::SetClearColor(float pR, float pG, float pB)
+	{
+		SetClearColor(glm::vec3(pR, pG, pB));
 	}
 };

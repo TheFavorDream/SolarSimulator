@@ -23,6 +23,10 @@ namespace Simulator
 
 	void Camera::HandleCameraMovement()
 	{
+
+		if (UI::Self()->IsUsingKeyBoard())
+			return;
+
 		if (glfwGetKey(Window::GetWindowInstance()->GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
 		{
 			m_Position += m_Front * m_Speed;
@@ -55,6 +59,9 @@ namespace Simulator
 
 	void Camera::HandleMouseMovement()
 	{
+		if (UI::Self()->IsUsingMouse())
+			return;
+
 		if (glfwGetMouseButton(Window::GetWindowInstance()->GetWindow(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 		{
 			float X = static_cast<float>(Window::GetWindowInstance()->GetCursorX());

@@ -39,6 +39,8 @@ add_subdirectory(./SolarSimulator/3rdParty/glfw)
 add_subdirectory(./SolarSimulator/3rdParty/glew/build/cmake)
 add_subdirectory(./SolarSimulator/3rdParty/glm)
 add_subdirectory(./SolarSimulator/3rdParty/stb_image)
+add_subdirectory(./SolarSimulator/3rdParty/imgui)
+
 
 
 
@@ -94,4 +96,4 @@ target_include_directories("${CMAKE_PROJECT_NAME}" PUBLIC "${CMAKE_CURRENT_SOURC
 target_include_directories("${CMAKE_PROJECT_NAME}" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/SolarSimulator/3rdParty/glew/include")
 
 
-target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE glfw glew stb_image)
+target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE imgui glfw glew stb_image )

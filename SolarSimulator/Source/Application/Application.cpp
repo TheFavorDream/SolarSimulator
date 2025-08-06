@@ -9,11 +9,14 @@ namespace Simulator
 	{
 		m_Log.SetInfo("Application Started");
 		m_Window = Window::CreateWindowObject(pWidth, pHeight, pTitle);
+		m_UI = UI::CreateUIInstance();
+
 		Renderer::Get(); // To Allocate memory
 		Setup();
 	}
 	Application::~Application()
 	{
+		delete m_UI;
 		delete m_Window;
 	}
 
@@ -36,17 +39,23 @@ namespace Simulator
 		Triangle.SetUp(Vertices, Indices);
 		m_Texture.CreateTexture("C:\\Users\\TheVoltage\\Desktop\\SolarSimulator\\SolarSimulator\\Resources\\Asset\\container.png");
 		Model = glm::scale(Model, glm::vec3(0.5f));
+
+
+		m_UI->CreateWindowWidget("Window");
+
+
 	}
 	void Application::Input()
 	{
 		m_Camera.HandleCameraMovement();
 		m_Camera.HandleMouseMovement();
+		m_UI->Event();//UI Events
 		glfwPollEvents();
 	}
 
 	void Application::Update()
 	{
-		//Model = glm::rotate(Model, glm::radians(0.01f), glm::vec3(0.0f, 0.0f, 1.0f));
+		Model = glm::rotate(Model, glm::radians(0.01f), glm::vec3(0.0f, 0.0f, 1.0f));
 		m_Test.SetUniformMat4("Model", Model);
 	}
 
@@ -55,6 +64,8 @@ namespace Simulator
 		Renderer::Get()->Draw();
 		m_Texture.Bind(0);
 		Triangle.Render(m_Test, m_Camera);
+
+		m_UI->Render(); //Rendering UI Eelemts.
 		m_Window->WindowUpdate();
 	}
 };

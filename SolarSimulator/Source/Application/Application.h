@@ -11,6 +11,8 @@
 #include "../3rdParty/glm/glm.hpp"
 #include "../3rdParty/glm/gtc/type_ptr.hpp"
 
+#include "UI/UI.h"
+
 namespace Simulator
 {
 	//Main Class
@@ -29,6 +31,7 @@ namespace Simulator
 
 	private:
 		WINDOW m_Window = NULL;
+		UI* m_UI = NULL;
 		Log m_Log;
 
 		Shader m_Test;

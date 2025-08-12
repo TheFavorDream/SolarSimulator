@@ -22,7 +22,10 @@ namespace Simulator
 
 	UIWindow::~UIWindow()
 	{
-
+		for (auto &i : m_Elements)
+		{
+			delete i.second;
+		}
 	}
 
 	//Drawing the window and its elements is acomplished by calling this function
@@ -36,6 +39,11 @@ namespace Simulator
 
 		ImGui::Begin(m_Title.c_str(), NULL, GetWindowFlags());
 			//Render Elements Here:
+
+		for (auto &i : m_Elements)
+		{
+			i.second->Render();
+		}
 
 		ImGui::End();
 	}
@@ -69,6 +77,20 @@ namespace Simulator
 		m_Title = pTitle;
 	}
 
+
+	void UIWindow::NewElement(Element* pElement)
+	{
+		m_Elements[pElement->GetID()] = pElement;
+	}
+
+	Element * UIWindow::GetElement(std::string pID)
+	{
+		if (m_Elements.find(pID) == m_Elements.end())
+		{
+			return NULL;
+		}
+		return m_Elements[pID];
+	}
 
 	ImGuiWindowFlags UIWindow::GetWindowFlags()
 	{

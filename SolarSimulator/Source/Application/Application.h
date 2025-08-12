@@ -34,6 +34,7 @@ namespace Simulator
 		UI* m_UI = NULL;
 		Log m_Log;
 
+
 		Shader m_Test;
 		Mesh Triangle;
 		Camera m_Camera;

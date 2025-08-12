@@ -16,6 +16,8 @@
 #include "../../3rdParty/imgui/imgui_impl_opengl3.h"
 
 #include "UIWindow.h"
+#include "Button.h"
+#include "Slider.h"
 
 #include <vector>
 #include <unordered_map>
@@ -39,6 +41,15 @@ namespace Simulator
 		int CreateWindowWidget(std::string pKey, ImVec2 pSize = ImVec2(0.0f, 0.0f), ImVec2 pPosition = ImVec2(0.0f, 0.0f));
 		int SetWindowRenderState(std::string pKey, bool pShouldRender);
 		UIWindow& GetWindow(std::string pKey);
+
+		void CreateButton(std::string pKey, std::string pTitle, ImVec2 pPosition, ImVec2 pSize=ImVec2(60.0f, 20.0f));
+		Button* GetButton(std::string pWindowKey, std::string pID);
+
+		void CreateSliderF(std::string pKey, std::string pTitle, float pMax, float pMin, ImVec2 pPosition);
+		SliderF* GetSliderF(std::string pWindowKey, std::string pID);
+
+		void CreateSliderI(std::string pKey, std::string pTitle, int pMax, int pMin, ImVec2 pPosition);
+		SliderI* GetSliderI(std::string pWindowKey, std::string pID);
 
 		inline bool IsUsingKeyBoard() { return m_IsUsingKeyboard; }
 		inline bool IsUsingMouse() { return m_IsUsingMouse; }

@@ -42,8 +42,9 @@ namespace Simulator
 
 
 		m_UI->CreateWindowWidget("Window");
-
-
+		m_UI->CreateButton("Window", "Button", ImVec2(10.0f, 25.0f));
+		m_UI->CreateSliderF("Window", "SliderF", 2.0f, 0.0f, ImVec2(10.0f, 50.0f));
+		m_UI->CreateSliderI("Window", "SliderI", 20, 0, ImVec2(10.0f, 70.0f));
 	}
 	void Application::Input()
 	{
@@ -57,6 +58,11 @@ namespace Simulator
 	{
 		Model = glm::rotate(Model, glm::radians(0.01f), glm::vec3(0.0f, 0.0f, 1.0f));
 		m_Test.SetUniformMat4("Model", Model);
+
+		if (m_UI->GetButton("Window", "Button")->GetState())
+		{
+			Log::GetSelf()->SetInfo("Slider Vlaue:%f", m_UI->GetSliderF("Window", "SliderF")->GetValue());
+		}
 	}
 
 	void Application::Render()

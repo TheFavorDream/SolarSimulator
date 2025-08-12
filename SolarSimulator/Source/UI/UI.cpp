@@ -106,6 +106,36 @@ namespace Simulator
 		return 0;
 	}
 
+	void UI::CreateButton(std::string pKey, std::string pTitle, ImVec2 pPosition, ImVec2 pSize)
+	{
+		m_Windows[pKey].NewElement(new Button(pTitle, pSize, pPosition));
+	}
+
+	Button* UI::GetButton(std::string pWindowKey, std::string pID)
+	{
+		return dynamic_cast<Button*>(m_Windows[pWindowKey].GetElement(pID));
+	}
+
+	void UI::CreateSliderF(std::string pKey, std::string pTitle, float pMax, float pMin, ImVec2 pPosition)
+	{
+		m_Windows[pKey].NewElement(new SliderF(pTitle, pMin, pMax, pPosition));
+	}
+
+	SliderF * UI::GetSliderF(std::string pWindowKey, std::string pID)
+	{
+		return dynamic_cast<SliderF*>(m_Windows[pWindowKey].GetElement(pID));
+	}
+
+	void UI::CreateSliderI(std::string pKey, std::string pTitle, int pMax, int pMin, ImVec2 pPosition)
+	{
+		m_Windows[pKey].NewElement(new SliderI(pTitle, pMin, pMax, pPosition));
+	}
+
+	SliderI * UI::GetSliderI(std::string pWindowKey, std::string pID)
+	{
+		return dynamic_cast<SliderI*>(m_Windows[pWindowKey].GetElement(pID));
+	}
+
 	UIWindow& UI::GetWindow(std::string pKey)
 	{
 		return m_Windows[pKey];

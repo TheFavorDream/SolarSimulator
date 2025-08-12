@@ -3,8 +3,9 @@
 #include "../Core.h"
 #include "../LogSys/Log.h"
 #include "../../3rdParty/imgui/imgui.h"
-#include "../../3rdParty/imgui/imgui_impl_opengl3.h"
-#include "../../3rdParty/imgui/imgui_impl_glfw.h"
+#include "Element.h"
+
+#include <unordered_map>
 
 namespace Simulator
 {
@@ -28,11 +29,19 @@ namespace Simulator
 		void DisableRender() { m_Render = false; }
 		void SetShouldRender(bool pRender) { m_Render = pRender; }
 
+		void NewElement(Element* pElement);
+
+		Element* GetElement(std::string pID);
+
 		inline bool ShouldRender() { return m_Render; }
+
 
 	private:
 		ImGuiWindowFlags GetWindowFlags();
 	private:
+
+
+		std::unordered_map<std::string, Element*> m_Elements;
 
 		ImVec2 m_Position;
 		ImVec2 m_Size;

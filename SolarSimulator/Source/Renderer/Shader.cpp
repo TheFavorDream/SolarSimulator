@@ -132,7 +132,7 @@ namespace Simulator
 			return m_UniformLookUp[pName];
 
 		int Loc = glGetUniformLocation(m_ProgramID, pName);
-		if (Loc < 0)
+		if (Loc < 0 && m_ProgramID != 0)
 		{
 			Log::GetSelf()->SetWarning("Cannot Find Uniform: %c in Program: %i", pName, m_ProgramID);
 			return -1;
@@ -163,6 +163,9 @@ namespace Simulator
 		return Content;
 	}
 
+
+	//Files are different on Linux and Window, so we configure them depending on Platform
+
 	std::vector<std::string> Shader::FilterSource(const std::string & pShaderSource)
 	{
 		std::vector<std::string> Lines;
@@ -170,11 +173,16 @@ namespace Simulator
 
 		for (int i = 0; i <= pShaderSource.length() ; i++)
 		{
-
+#ifdef WINDOWS
 			if ((pShaderSource[i] == char(13) && pShaderSource[i+1] == char(10)) || i == pShaderSource.length())
+#else
+			if (pShaderSource[i] == char(10) || i == pShaderSource.length())
+#endif			
 			{
-				i++; //Carrige Return
 
+#ifdef WINDOWS
+				i++; //Carrige Return
+#endif
 				if (Line.length() == 0)//Skip Empty Lines
 				{
 					Line.clear();

@@ -2922,6 +2922,10 @@ struct ImColor
 //-----------------------------------------------------------------------------
 
 // Multi-selection system
+
+
+
+
 // Documentation at: https://github.com/ocornut/imgui/wiki/Multi-Select
 // - Refer to 'Demo->Widgets->Selection State & Multi-Select' for demos using this.
 // - This system implements standard multi-selection idioms (CTRL+Mouse/Keyboard, SHIFT+Mouse/Keyboard, etc)

@@ -45,6 +45,16 @@ namespace Simulator
 		m_UI->CreateButton("Window", "Button", ImVec2(10.0f, 25.0f));
 		m_UI->CreateSliderF("Window", "SliderF", 2.0f, 0.0f, ImVec2(10.0f, 50.0f));
 		m_UI->CreateSliderI("Window", "SliderI", 20, 0, ImVec2(10.0f, 70.0f));
+		m_UI->CreateText("Window", "Info", "This is some useful text", ImVec2(10.0f, 100.0f));
+		m_UI->CreateCheckbox("Window", "Checkbox", true, ImVec2(10.0f, 120.0f));
+
+		m_UI->CreateWindowWidget("Window2");
+		m_UI->CreateButton("Window2", "Button", ImVec2(10.0f, 25.0f));
+		m_UI->CreateSliderF("Window2", "SliderF", 2.0f, 0.0f, ImVec2(10.0f, 50.0f));
+		m_UI->CreateSliderI("Window2", "SliderI", 20, 0, ImVec2(10.0f, 70.0f));
+		m_UI->CreateText("Window2", "Info", "This is some useful text", ImVec2(10.0f, 100.0f));
+		m_UI->CreateCheckbox("Window2", "Checkbox", true, ImVec2(10.0f, 120.0f));
+
 	}
 	void Application::Input()
 	{
@@ -62,6 +72,15 @@ namespace Simulator
 		if (m_UI->GetButton("Window", "Button")->GetState())
 		{
 			Log::GetSelf()->SetInfo("Slider Vlaue:%f", m_UI->GetSliderF("Window", "SliderF")->GetValue());
+		}
+		if (m_UI->GetCheckbox("Window", "Checkbox")->GetState())
+		{
+			m_UI->SetElementRenderingState("Window", "Info", true);
+		}
+		else 
+		{
+			m_UI->SetElementRenderingState("Window", "Info", false);
+
 		}
 	}
 

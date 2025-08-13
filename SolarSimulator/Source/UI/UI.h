@@ -18,6 +18,9 @@
 #include "UIWindow.h"
 #include "Button.h"
 #include "Slider.h"
+#include "Text.h"
+#include "Checkbox.h"
+
 
 #include <vector>
 #include <unordered_map>
@@ -37,6 +40,7 @@ namespace Simulator
 		void Event();
 		void Render();
 
+		void SetElementRenderingState(std::string pWindowKey, std::string pID, bool pState);
 
 		int CreateWindowWidget(std::string pKey, ImVec2 pSize = ImVec2(0.0f, 0.0f), ImVec2 pPosition = ImVec2(0.0f, 0.0f));
 		int SetWindowRenderState(std::string pKey, bool pShouldRender);
@@ -51,6 +55,12 @@ namespace Simulator
 		void CreateSliderI(std::string pKey, std::string pTitle, int pMax, int pMin, ImVec2 pPosition);
 		SliderI* GetSliderI(std::string pWindowKey, std::string pID);
 
+		void CreateText(std::string pKey, std::string pID, std::string pText, ImVec2 pPosition);
+		Text* GetText(std::string pKey, std::string pID);
+
+		void CreateCheckbox(std::string pKey, std::string pID, bool pDefState, ImVec2 pPosition);
+		Checkbox* GetCheckbox(std::string pWindowKey, std::string pID);
+
 		inline bool IsUsingKeyBoard() { return m_IsUsingKeyboard; }
 		inline bool IsUsingMouse() { return m_IsUsingMouse; }
 
@@ -63,6 +73,9 @@ namespace Simulator
 		bool m_IsUsingMouse = false;
 
 		std::unordered_map<std::string, UIWindow> m_Windows;
+
+
+
 
 	private:
 		static UI* s_Self;

@@ -9,7 +9,7 @@ namespace Simulator
 	{
 	public:
 
-		void Text(const std::string& pID, std::string pText, ImVec2 pPosition)
+		Text(const std::string& pID, const std::string& pText, ImVec2 pPosition)
 		{
 			m_ID = pID;
 			m_Text = pText;
@@ -21,6 +21,8 @@ namespace Simulator
 			ImGui::SetCursorPos(m_Position);
 			ImGui::Text(m_Text.c_str());
 		}
+
+		std::string& GetText() { return m_Text; }
 
 	private:
 		std::string m_Text;

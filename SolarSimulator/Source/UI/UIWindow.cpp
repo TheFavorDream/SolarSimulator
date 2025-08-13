@@ -24,7 +24,8 @@ namespace Simulator
 	{
 		for (auto &i : m_Elements)
 		{
-			delete i.second;
+			Log::GetSelf()->SetInfo("%s: Free Element: %s", m_Title, i.first);
+			delete i.second; // Delete Elements from the heap
 		}
 	}
 
@@ -37,11 +38,14 @@ namespace Simulator
 			ImGui::SetNextWindowPos(m_Position);
 
 
-		ImGui::Begin(m_Title.c_str(), NULL, GetWindowFlags());
+		ImGui::Begin(m_Title.c_str());
 			//Render Elements Here:
 
 		for (auto &i : m_Elements)
 		{
+			if (!i.second->GetRenderState())
+				continue;//Skip Rendering if it was disabled.
+
 			i.second->Render();
 		}
 

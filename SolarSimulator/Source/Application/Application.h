@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "Core.h"
 #include "Renderer/Renderer.h"
 #include "Window/Window.h"
 #include "LogSys/Log.h"

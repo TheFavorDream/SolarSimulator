@@ -46,10 +46,7 @@ namespace Simulator
 		ImGui_ImplGlfw_InitForOpenGL(Window::GetWindowInstance()->GetWindow(), true);
 		ImGui_ImplOpenGL3_Init(m_GLSLVersion);
 
-
-		ImGui::GetStyle().Alpha = 0.8f;
-		ImGui::GetStyle().WindowRounding = 2.0f;
-		ImGui::GetStyle().WindowBorderSize = 0.2f;
+		io.IniFilename = NULL;
 
 		return 0;
 	}
@@ -64,8 +61,105 @@ namespace Simulator
 		return 0;
 	}
 
+	int UI::LoadUI(std::string pUIConfig)
+	{
+		//Check if We Already Loaded, if delete the old stuff and reload:
+
+		if (m_Windows.size() != 0)
+		{
+			m_Windows.clear();
+		}
+		
+		std::ifstream Source(pUIConfig, std::ios::in | std::ios::binary);
+
+		if (!Source.is_open())
+		{
+			Log::GetSelf()->SetError("Unable to Open UI Config File");
+			return 1;
+		}
+		//Json Parsing:
+
+		Json Data = Json::parse(Source);
+		Source.close();
+
+
+		try
+		{
+			ImGui::GetStyle().WindowRounding = Data["Config"]["Rounding"];
+			ImGui::GetStyle().FrameRounding = Data["Config"]["WidgetRounding"];
+			ImGui::GetStyle().Alpha = Data["Config"]["Alpha"];
+		}
+
+		catch (...)
+		{
+			Log::GetSelf()->SetError("Invalid config");
+		}
+
+		for (auto& i : Data["Window"])
+		{
+			try
+			{
+				CreateWindowWidget(i["Title"], ImVec2(i["SizeX"], i["SizeY"]), ImVec2(i["PosX"], i["PosY"]), i["LockedPos"]);
+			}
+			catch (...)
+			{
+				Log::GetSelf()->SetError("Invalid Window Configuration");
+				continue;
+			}
+
+			for (auto &j : i["Elements"])
+			{
+				try
+				{
+					/*
+					
+						I know it hurts to look at this......
+						i probably should create a hash map and assign each type a function to be excuted.
+						but for now this works, so just chill.
+					*/
+					std::string Type = j["Type"];
+					if (Type == "Button")
+					{
+						CreateButton(i["Title"], j["ID"], ImVec2(j["PosX"], j["PosY"]), ImVec2(j["SizeX"], j["SizeY"]));
+					}
+					if (Type == "Text")
+					{
+						CreateText(i["Title"], j["ID"], j["Content"], ImVec2(j["PosX"], j["PosY"]));
+					}
+					if (Type == "SliderI")
+					{
+						CreateSliderI(i["Title"], j["ID"], j["Min"], j["Max"], ImVec2(j["PosX"], j["PosY"]));
+					}
+					if (Type == "SliderF")
+					{
+						CreateSliderF(i["Title"], j["ID"], j["Min"], j["Max"], ImVec2(j["PosX"], j["PosY"]));
+
+					}
+					if (Type == "Checkbox")
+					{
+						CreateCheckbox(i["Title"], j["ID"], j["State"], ImVec2(j["PosX"], j["PosY"]));
+					}
+					if (Type == "InputF")
+					{
+						CreateInputF(i["Title"], j["ID"], j["Value"], ImVec2(j["PosX"], j["PosY"]));
+					}
+				}
+				catch (...)
+				{
+					Log::GetSelf()->SetInfo("Invalid Data Type");
+					continue;
+				}
+			}
+		}
+		return 0;
+	}
+
+
 	void UI::Event()
 	{
+		/*
+			TODO: fix this shit
+		*/
 		m_IsUsingKeyboard = ImGui::GetIO().WantCaptureKeyboard;
 		m_IsUsingMouse = ImGui::GetIO().WantCaptureMouse;
 	}
@@ -76,6 +170,8 @@ namespace Simulator
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
+		// Rendering happens here
+		//This Renders the windows and the windows render their elements
 		for (auto &i : m_Windows)
 		{
 			if (!i.second.ShouldRender())
@@ -94,7 +190,7 @@ namespace Simulator
 		m_Windows[pWindowKey].GetElement(pID)->GetRenderState() = pState;
 	}
 
-	int UI::CreateWindowWidget(std::string pKey, ImVec2 pSize, ImVec2 pPosition)
+	int UI::CreateWindowWidget(std::string pKey, ImVec2 pSize, ImVec2 pPosition, bool LockedPos)
 	{
 		//we check if the window exists or not
 		if (m_Windows.find(pKey) != m_Windows.end())
@@ -103,7 +199,7 @@ namespace Simulator
 			return 1;
 		}
 
-		m_Windows[pKey] = UIWindow(pKey, pSize, pPosition);
+		m_Windows[pKey] = UIWindow(pKey, pSize, pPosition, LockedPos);
 		return 0;
 	}
 
@@ -168,6 +264,17 @@ namespace Simulator
 	Checkbox * UI::GetCheckbox(std::string pWindowKey, std::string pID)
 	{
 		return dynamic_cast<Checkbox*>(m_Windows[pWindowKey].GetElement(pID));
+	}
+//=================================Input Float======================================
+	void UI::CreateInputF(std::string pKey, std::string pID, float pDefValue, ImVec2 pPosition)
+	{
+		m_Windows[pKey].NewElement(new InputF(pID, pPosition, pDefValue));
+	}
+
+	InputF * UI::GetInputF(std::string pWindowKey, std::string pID)
+	{
+		return dynamic_cast<InputF*>(m_Windows[pWindowKey].GetElement(pID));
+
 	}
 
 

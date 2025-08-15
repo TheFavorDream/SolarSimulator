@@ -6,13 +6,10 @@ namespace Simulator
 {
 
 
-	UIWindow::UIWindow(const std::string& pTitle, ImVec2 pSize, ImVec2 pPosition)
-		: m_Title(pTitle), m_Size(pSize), m_Position(pPosition)
+	UIWindow::UIWindow(const std::string& pTitle, ImVec2 pSize, ImVec2 pPosition, bool pLockedPos)
+		: m_Title(pTitle), m_Size(pSize), m_Position(pPosition), m_LockedPosition(pLockedPos)
 	{
-		if (pPosition.x != 0.0f && pPosition.y != 0.0f)
-		{
-			m_LockedPosition = true;
-		}
+
 
 		if (pSize.x != 0.0f && pSize.y != 0.0f)
 		{

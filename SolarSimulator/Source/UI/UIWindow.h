@@ -14,7 +14,7 @@ namespace Simulator
 	public:
 
 		 UIWindow() = default;
-		 UIWindow(const std::string& pTitle, ImVec2 pSize=ImVec2(0.0f, 0.0f), ImVec2 pPosition= ImVec2(0.0f, 0.0f));
+		 UIWindow(const std::string& pTitle, ImVec2 pSize=ImVec2(0.0f, 0.0f), ImVec2 pPosition= ImVec2(0.0f, 0.0f), bool pLockedPos=false);
 		~UIWindow();
 
 

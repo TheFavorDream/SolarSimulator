@@ -20,11 +20,13 @@
 #include "Slider.h"
 #include "Text.h"
 #include "Checkbox.h"
+#include "InputField.h"
 
-
+#include <fstream>
 #include <vector>
 #include <unordered_map>
-
+#include "../../3rdParty/JsonParser/Json.h"
+using Json = nlohmann::json;
 namespace Simulator
 {
 	class UI
@@ -37,12 +39,15 @@ namespace Simulator
 		int Init();
 		int Shutdown();
 
+		//This method will read, parse and load a jason file that contains ui al
+		int LoadUI(std::string pUIConfig);
+
 		void Event();
 		void Render();
 
 		void SetElementRenderingState(std::string pWindowKey, std::string pID, bool pState);
 
-		int CreateWindowWidget(std::string pKey, ImVec2 pSize = ImVec2(0.0f, 0.0f), ImVec2 pPosition = ImVec2(0.0f, 0.0f));
+		int CreateWindowWidget(std::string pKey, ImVec2 pSize = ImVec2(0.0f, 0.0f), ImVec2 pPosition = ImVec2(0.0f, 0.0f), bool LockedPos=false);
 		int SetWindowRenderState(std::string pKey, bool pShouldRender);
 		UIWindow& GetWindow(std::string pKey);
 
@@ -61,6 +66,9 @@ namespace Simulator
 		void CreateCheckbox(std::string pKey, std::string pID, bool pDefState, ImVec2 pPosition);
 		Checkbox* GetCheckbox(std::string pWindowKey, std::string pID);
 
+		void CreateInputF(std::string pKey, std::string pID, float pDefValue, ImVec2 pPosition);
+		InputF* GetInputF(std::string pWindowKey, std::string pID);
+
 		inline bool IsUsingKeyBoard() { return m_IsUsingKeyboard; }
 		inline bool IsUsingMouse() { return m_IsUsingMouse; }
 
@@ -73,9 +81,6 @@ namespace Simulator
 		bool m_IsUsingMouse = false;
 
 		std::unordered_map<std::string, UIWindow> m_Windows;
-
-
-
 
 	private:
 		static UI* s_Self;

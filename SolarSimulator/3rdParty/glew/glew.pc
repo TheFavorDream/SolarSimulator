@@ -1,6 +1,6 @@
-prefix=C:/Users/TheVoltage/CMakeBuilds/a6bd9e78-d1aa-533e-8331-740bfa9a2051/install/x64-Release
+prefix=C:/Program Files (x86)/SolarSimulator
 exec_prefix=${prefix}
-libdir=C:/Users/TheVoltage/CMakeBuilds/a6bd9e78-d1aa-533e-8331-740bfa9a2051/install/x64-Release/lib
+libdir=C:/Program Files (x86)/SolarSimulator/lib
 includedir=${prefix}/include
 
 Name: glew

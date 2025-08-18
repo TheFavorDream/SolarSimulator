@@ -3,7 +3,7 @@
 
 namespace Simulator
 {
-	ElementBuffer::ElementBuffer(const std::vector<uint32>& pIndices)
+	ElementBuffer::ElementBuffer(const std::vector<uint16>& pIndices)
 	{
 		InitBuffer(pIndices);
 	}
@@ -17,15 +17,22 @@ namespace Simulator
 
 	ElementBuffer::~ElementBuffer()
 	{
-		FreeBuffer();
+		//FreeBuffer();
 	}
 
-	void ElementBuffer::InitBuffer(const std::vector<uint32>& pIndices)
+	void ElementBuffer::operator=(ElementBuffer && Other) noexcept
+	{
+		m_BufferID = Other.m_BufferID;
+		m_Count = Other.m_Count;
+		Other.m_BufferID = 0;
+	}
+
+	void ElementBuffer::InitBuffer(const std::vector<uint16>& pIndices)
 	{
 		glGenBuffers(1, &m_BufferID);
 		m_Count = pIndices.size();
 		Bind();
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Count*sizeof(uint32), &pIndices[0], GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Count*sizeof(uint16), &pIndices[0], GL_STATIC_DRAW);
 	}
 
 	void ElementBuffer::FreeBuffer()

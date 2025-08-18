@@ -1,7 +1,7 @@
 #ifdef WINDOWS
 #include <windows.h>
 #else
-#error "Solar Simulator Only Supports Windows (for now)"
+#define LINUX
 #endif
 
 typedef unsigned long int  uint64;

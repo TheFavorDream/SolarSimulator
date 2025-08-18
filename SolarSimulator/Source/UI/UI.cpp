@@ -143,6 +143,10 @@ namespace Simulator
 					{
 						CreateInputF(i["Title"], j["ID"], j["Value"], ImVec2(j["PosX"], j["PosY"]));
 					}
+					if (Type == "Input3F")
+					{
+						CreateInput3F(i["Title"], j["ID"], ImVec2(j["PosX"], j["PosY"]), j.value("Value1", 0.0f), j.value("Value2", 0.0f), j.value("Value3", 0.0f));
+					}
 				}
 				catch (...)
 				{
@@ -274,6 +278,18 @@ namespace Simulator
 	InputF * UI::GetInputF(std::string pWindowKey, std::string pID)
 	{
 		return dynamic_cast<InputF*>(m_Windows[pWindowKey].GetElement(pID));
+
+	}
+//============================Input for 3 Floats===================================
+	void UI::CreateInput3F(std::string pKey, std::string pID, ImVec2 pPosition, float pDefValue1, float pDefValue2, float pDefValue3)
+	{
+		m_Windows[pKey].NewElement(new Input3F(pID, pPosition, pDefValue1, pDefValue2, pDefValue3));
+
+	}
+
+	Input3F* UI::GetInput3F(std::string pWindowKey, std::string pID)
+	{
+		return dynamic_cast<Input3F*>(m_Windows[pWindowKey].GetElement(pID));
 
 	}
 

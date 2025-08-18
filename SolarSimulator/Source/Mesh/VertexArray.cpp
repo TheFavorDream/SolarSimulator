@@ -20,6 +20,13 @@ namespace Simulator
 		DeleteVertexArray();
 	}
 
+	void VertexArray::operator=(VertexArray && Other) noexcept
+	{
+		m_ArrayID = Other.m_ArrayID;
+		m_Layouts = Other.m_Layouts;
+		Other.m_ArrayID = 0;
+	}
+
 	void VertexArray::CreateVertexArray()
 	{
 		glGenVertexArrays(1, &m_ArrayID);

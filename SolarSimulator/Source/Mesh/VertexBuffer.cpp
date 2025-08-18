@@ -13,11 +13,20 @@ namespace Simulator
 		m_BufferID = Other.m_BufferID;
 		m_Vertices = Other.m_Vertices;
 		Other.m_BufferID = 0;
+		Other.m_Vertices = 0;
 	}
 
 	VertexBuffer::~VertexBuffer()
 	{
 		FreeBuffer();
+	}
+
+	void VertexBuffer::operator=(VertexBuffer && Other) noexcept
+	{
+		m_BufferID = Other.m_BufferID;
+		m_Vertices = Other.m_Vertices;
+		Other.m_BufferID = 0;
+		Other.m_Vertices = 0;
 	}
 
 	void VertexBuffer::InitBuffer(const std::vector<Vertex>& pVertices)

@@ -17,80 +17,84 @@
       "PosY": 100.0,
       "LockedPos": false,
 
-      "Elements":
-      [
+      "Elements": [
+
         {
           "Type": "Button",
-          "ID": "Print",
-          "SizeX": 60.0,
-          "SizeY": 20.0,
+          "ID": "Clear Log",
           "PosX": 10.0,
-          "PosY": 25.0
-        },
-        {
-          "Type": "SliderF",
-          "ID": "Slider1",
-          "PosX": 10.0,
-          "PosY": 50.0,
-          "Min": 0.0,
-          "Max": 10.0
-        },
-        {
-          "Type": "SliderI",
-          "ID": "Slider2",
-          "PosX": 10.0,
-          "PosY": 70.0,
-          "Min": 0, 
-          "Max": 10
-        },
-        {
-          "Type": "Text",
-          "ID": "Info",
-          "Content": "This is some useful text.",
-          "PosX": 10.0,
-          "PosY": 100.0
+          "PosY": 90.0,
+          "SizeX": 100.0,
+          "SizeY": 25.0
         },
         {
           "Type": "Checkbox",
-          "ID":   "checkbox1",
-          "PosX":  10.0,
-          "PosY": 120.0,
-          "State":  true
+          "ID": "Show Setter Menu",
+          "PosX": 10.0,
+          "PosY": 60.0,
+          "State":  false
+        },
+        {
+          "Type": "Checkbox",
+          "ID": "Lock FPS to 60",
+          "PosX": 10.0,
+          "PosY": 20.0,
+          "State": true
+        },
+        {
+          "Type": "Checkbox",
+          "ID": "Show Model Menu",
+          "PosX": 10.0,
+          "PosY": 40.0,
+          "State": false
+        },
+        {
+          "Type": "Text",
+          "ID": "DeltaT",
+          "Content": "Delta Time:",
+          "PosX": 10.0,
+          "PosY": 120.0
         }
+
 
       ]
     },
 
     {
       "Title": "Setter",
-      "SizeX": 200.0,
-      "SizeY": 300.0,
+      "SizeX": 400.0,
+      "SizeY": 200.0,
       "PosX": 300.0,
       "PosY": 100.0,
       "LockedPos": false,
 
       "Elements": [
         {
-          "Type": "Text",
-          "ID": "Info",
-          "Content": "Stay hard!",
+          "Type": "Input3F",
+          "ID": "BG Color",
           "PosX": 10.0,
           "PosY": 20.0
         },
         {
-          "Type": "Button",
-          "ID": "Destroy",
+          "Type": "Input3F",
+          "ID": "Light Position",
           "PosX": 10.0,
-          "PosY": 50.0,
-          "SizeX": 60.0,
-          "SizeY": 20.0
+          "PosY": 50.0
         },
         {
-          "Type": "InputF",
-          "ID": "Input1",
+          "Type": "Checkbox",
+          "ID": "Orbit",
           "PosX": 10.0,
           "PosY": 80.0,
-          "Value": 1.0
+          "State": false
+        },
+        {
+          "Type": "Button",
+          "ID": "Close",
+          "PosX": 10.0,
+          "PosY": 110.0,
+          "SizeX": 60.0,
+          "SizeY": 20.0
         }
       ]
     }

@@ -5,12 +5,24 @@ namespace Simulator
 {
 	Mesh::Mesh(const std::vector<Vertex>& pVertices)
 	{
-		SetUp(pVertices, std::vector<uint32>());
+		SetUp(pVertices, std::vector<uint16>());
 	}
 
-	Mesh::Mesh(const std::vector<Vertex>& pVertices, const std::vector<uint32>& pIndices)
+	Mesh::Mesh(const std::vector<Vertex>& pVertices, const std::vector<uint16>& pIndices)
 	{
 		SetUp(pVertices, pIndices);
+	}
+
+	Mesh::Mesh(Mesh&& Other) noexcept
+	{
+		m_Vertices = Other.m_Vertices;
+		m_Indices = Other.m_Indices;
+			
+		m_Model = Other.m_Model;
+		m_VBO = std::move(Other.m_VBO);
+		m_VAO = std::move(Other.m_VAO);
+		m_EBO = std::move(Other.m_EBO);
+		
 	}
 
 	Mesh::~Mesh()
@@ -18,18 +30,19 @@ namespace Simulator
 		Free();
 	}
 
-	void Mesh::Render(const Shader& pShader, Camera& pCamera)
+	void Mesh::Render(const Shader& pShader, Camera& pCamera, glm::mat4& pTransform)
 	{
 		pShader.Bind();
+		pShader.SetUniformMat4("Model", m_Model*pTransform);
 		pShader.SetUniformMat4("View", pCamera.GetView());
 		pShader.SetUniformMat4("Projection", pCamera.GetProjection());
 
 		m_VAO.Bind();
-		glDrawElements(GL_TRIANGLES, m_EBO.GetCount(), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, m_EBO.GetCount(), GL_UNSIGNED_SHORT, 0);
 		m_VAO.Unbind();
 	}
 
-	void Mesh::SetUp(const std::vector<Vertex>& pVertices, const std::vector<uint32>& pIndices)
+	void Mesh::SetUp(const std::vector<Vertex>& pVertices, const std::vector<uint16>& pIndices)
 	{
 		m_Vertices = pVertices;
 		m_Indices = pIndices;

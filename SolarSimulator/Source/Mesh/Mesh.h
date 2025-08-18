@@ -15,11 +15,14 @@ namespace Simulator
 
 		Mesh() = default;
 		Mesh(const std::vector<Vertex>& pVertices);
-		Mesh(const std::vector<Vertex>& pVertices, const std::vector<uint32>& pIndices);
+		Mesh(const std::vector<Vertex>& pVertices, const std::vector<uint16>& pIndices);
+		Mesh(Mesh&& Other) noexcept;
 		~Mesh();
 
-		void Render(const Shader& pShader, Camera& pCamera);
-		void SetUp(const std::vector<Vertex>& pVertices, const std::vector<uint32>& pIndices);
+		inline glm::mat4& GetMatrix() { return m_Model; }
+
+		void Render(const Shader& pShader, Camera& pCamera, glm::mat4& pTransform=glm::mat4(1.0f));
+		void SetUp(const std::vector<Vertex>& pVertices, const std::vector<uint16>& pIndices);
 		void Free();
 
 	private:
@@ -27,7 +30,9 @@ namespace Simulator
 		VertexBuffer m_VBO;
 		ElementBuffer m_EBO;
 
+		glm::mat4 m_Model = glm::mat4(1.0f);
+
 		std::vector<Vertex> m_Vertices;
-		std::vector<uint32> m_Indices;
+		std::vector<uint16> m_Indices;
 	};
 };

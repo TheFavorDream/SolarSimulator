@@ -37,6 +37,8 @@ namespace Simulator
 		 VertexArray(VertexArray&& Other);
 		~VertexArray();
 
+		void operator=(VertexArray&& Other) noexcept;
+
 		void CreateVertexArray();
 		void DeleteVertexArray();
 

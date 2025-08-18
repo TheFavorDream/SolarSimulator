@@ -132,4 +132,8 @@ namespace Simulator
 		m_Projection = glm::perspective(glm::radians(m_Pov), m_AspectRatio, m_NearPlane, m_FarPlane);
 		return m_Projection;
 	}
+	void Camera::SetPosition(float pX, float pY, float pZ)
+	{
+		m_Position = glm::vec3(pX, pY, pZ);
+	}
 };

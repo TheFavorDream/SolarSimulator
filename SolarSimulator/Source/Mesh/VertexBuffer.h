@@ -26,6 +26,7 @@ namespace Simulator
 		 VertexBuffer(VertexBuffer&& Other);
 		 ~VertexBuffer();
 
+		 void operator=(VertexBuffer&& Other) noexcept;
 
 		void InitBuffer(const std::vector<Vertex>& pVertices);
 		void FreeBuffer();

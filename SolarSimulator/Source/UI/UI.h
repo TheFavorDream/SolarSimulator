@@ -21,6 +21,7 @@
 #include "Text.h"
 #include "Checkbox.h"
 #include "InputField.h"
+#include "Input3F.h"
 
 #include <fstream>
 #include <vector>
@@ -68,6 +69,9 @@ namespace Simulator
 
 		void CreateInputF(std::string pKey, std::string pID, float pDefValue, ImVec2 pPosition);
 		InputF* GetInputF(std::string pWindowKey, std::string pID);
+
+		void CreateInput3F(std::string pKey, std::string pID, ImVec2 pPosition, float pDefValue1=0.0f, float pDefValue2=0.0f, float pDefValue3=0.0);
+		Input3F* GetInput3F(std::string pWindowKey, std::string pID);
 
 		inline bool IsUsingKeyBoard() { return m_IsUsingKeyboard; }
 		inline bool IsUsingMouse() { return m_IsUsingMouse; }

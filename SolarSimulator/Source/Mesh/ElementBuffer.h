@@ -10,11 +10,13 @@ namespace Simulator
 	public:
 
 		ElementBuffer() = default;
-		ElementBuffer(const std::vector<uint32>& pIndices);
+		ElementBuffer(const std::vector<uint16>& pIndices);
 		ElementBuffer(ElementBuffer&& Other);
 		~ElementBuffer();
 
-		void InitBuffer(const std::vector<uint32>& pIndices);
+		void operator=(ElementBuffer&& Other) noexcept;
+
+		void InitBuffer(const std::vector<uint16>& pIndices);
 		void FreeBuffer();
 
 		void Bind() const;

@@ -25,6 +25,8 @@ namespace Simulator
 		glm::mat4& GetView();
 		glm::mat4& GetProjection();
 
+		void SetPosition(float pX, float pY, float pZ);
+
 		inline const glm::vec3& GetPosition() { return m_Position; }
 
 	private:

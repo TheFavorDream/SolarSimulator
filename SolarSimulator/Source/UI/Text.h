@@ -2,6 +2,7 @@
 
 #include "../Core.h"
 #include "Element.h"
+#include <string>
 
 namespace Simulator
 {
@@ -16,6 +17,11 @@ namespace Simulator
 			m_Position = pPosition;
 		}
 
+		~Text()
+		{
+
+		}
+
 		void Render() override
 		{
 			ImGui::SetCursorPos(m_Position);
@@ -23,7 +29,10 @@ namespace Simulator
 		}
 
 		std::string& GetText() { return m_Text; }
-
+		void SetText(std::string pText)
+		{
+			m_Text = pText;
+		}
 	private:
 		std::string m_Text;
 	};

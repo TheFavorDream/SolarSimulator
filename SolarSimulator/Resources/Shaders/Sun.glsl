@@ -8,7 +8,7 @@ layout(location=2) in vec2 TexCoords;
 
 out vec3 aNormals;
 out vec2 aTexCoords;
-out vec3 aFragPos;
+
 uniform mat4 Model;
 uniform mat4 View;
 uniform mat4 Projection;
@@ -17,7 +17,6 @@ void main()
 {
 	aNormals = Normals;
 	aTexCoords = TexCoords;
-	aFragPos = vec3(Model * vec4(Position, 1.0f));
 	gl_Position = Projection * View * Model * vec4(Position, 1.0f);
 }
 
@@ -27,29 +26,10 @@ void main()
 
 in vec3 aNormals;
 in vec2 aTexCoords;
-in vec3 aFragPos;
-
 uniform sampler2D Texture;	
-
-uniform float AmbientStrength;
-
-uniform vec3 SunPosition;
-uniform vec3 LightColor;
-
 out vec4 FragColor;
-
-
 void main ()
 {
-
-	vec3 Ambient = AmbientStrength * LightColor;
-	
-	vec3 LightDir = normalize(SunPosition - aFragPos);
-	float Diff = max(dot(normalize(aNormals), LightDir), 0.0);
-	vec3 Diffuse = Diff * LightColor;
-
-
-
-	FragColor = vec4((Ambient+Diffuse) * vec3(texture(Texture, aTexCoords)), 1.0f);
-	//FragColor  = vec4(aNormals, 1.0f);
+	FragColor = vec4(texture(Texture, aTexCoords));
+	//FragColor = vec4(aNormals, 1.0f);
 }

@@ -4,7 +4,7 @@
 	Purpose:
 		takes care of Rendering process
 */
-
+#pragma once
 #include "Core.h"
 #include "LogSys/Log.h"
 #include "GL/glew.h"

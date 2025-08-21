@@ -26,8 +26,16 @@ namespace Simulator
 		glm::mat4& GetProjection();
 
 		void SetPosition(float pX, float pY, float pZ);
+		void SetYaw(float pYaw);
+		void SetPitch(float pPitch);
 
 		inline const glm::vec3& GetPosition() { return m_Position; }
+		inline float GetYaw() { return m_Yaw; }
+		inline float GetPitch() { return m_Pitch; }
+
+	private:
+
+		void UpdateCameraDirection();
 
 	private:
 		glm::vec3 m_Position;

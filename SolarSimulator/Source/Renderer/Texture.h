@@ -25,8 +25,7 @@ namespace Simulator
 		virtual ~Texture() ;
 
 
-		virtual int CreateTexture(std::string pFilePath, bool pKeepCache=false) = 0;
-		virtual int CreateTexture(unsigned char* pData, uint32 pWidth, uint32 pHegith, uint32 pChannels) = 0 ;
+		virtual int CreateTexture(std::string pFilePath, GLenum pMin = GL_LINEAR, GLenum pMag = GL_LINEAR, bool pFlipVerticaly=true, bool pKeepCache=false) = 0;
 		virtual int FreeTexture() = 0;
 
 		virtual void Bind(uint32 Slot=0) const = 0;
@@ -51,11 +50,10 @@ namespace Simulator
 	public:
 
 		 Texture2D() = default;
-		 Texture2D(std::string pPath);
+		 Texture2D(std::string pPath, GLenum pMin = GL_LINEAR, GLenum pMag= GL_LINEAR);
 		~Texture2D();
 
-		int CreateTexture(std::string pFilePath, bool pKeepCache = false) override;
-		int CreateTexture(unsigned char* pData, uint32 pWidth, uint32 pHegith, uint32 pChannels) override;
+		int CreateTexture(std::string pFilePath, GLenum pMin = GL_LINEAR, GLenum pMag = GL_LINEAR, bool pFlipVerticaly=true, bool pKeepCache = false) override;
 		int FreeTexture() override;
 
 		void Bind(uint32 Slot = 0) const override;
@@ -74,7 +72,11 @@ namespace Simulator
 		 TextureCube(TextureCube&& Other);
 		~TextureCube();
 
+		//This will use the same single texture to fill all 6 sides:
+		int CreateTexture(std::string pFilePath, GLenum pMin = GL_LINEAR, GLenum pMag = GL_LINEAR, bool pFlipVerticaly = true, bool pKeepCache = false) override;
+		// Gets 6 textures and makes a cube map
 		int CreateTexture(std::string pDirectoryPath, std::vector<std::string> pFiles, bool pKeepCache=false);
+
 		int FreeTexture() override;
 
 		void Bind(uint32 Slot = 0) const override;

@@ -8,6 +8,11 @@ namespace Simulator
 		CreateShader(pShaderPath);
 	}
 
+	Shader::Shader(const std::string & pVertexSource, const std::string & pFragmentSource)
+	{
+		CreateShader(pVertexSource, pFragmentSource);
+	}
+
 	Shader::~Shader()
 	{
 		DeleteShader();
@@ -37,6 +42,19 @@ namespace Simulator
 			Log::GetSelf()->SetError("Unable to Preprocess Shader Source");
 			return -3;
 		}
+
+		int Res = CreateProgram();
+		if (Res != -1)
+		{
+			Log::GetSelf()->SetInfo("Shader Compiled & Linked Successfully. ID:%i", Res);
+		}
+		return Res;
+	}
+
+	int Shader::CreateShader(const std::string & pVertexSource, const std::string & pFragmentSource)
+	{
+		m_ShadersSources[GL_VERTEX_SHADER] = pVertexSource;
+		m_ShadersSources[GL_FRAGMENT_SHADER] = pFragmentSource;
 
 		int Res = CreateProgram();
 		if (Res != -1)

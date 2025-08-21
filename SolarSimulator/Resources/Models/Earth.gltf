@@ -15,7 +15,25 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"Sphere"
+			"name":"Sphere",
+			"scale":[
+				0.9341367483139038,
+				0.9341367483139038,
+				0.9070212841033936
+			]
+		}
+	],
+	"materials":[
+		{
+			"doubleSided":true,
+			"name":"Material.001",
+			"pbrMetallicRoughness":{
+				"baseColorTexture":{
+					"index":0
+				},
+				"metallicFactor":0.33636364340782166,
+				"roughnessFactor":0.5
+			}
 		}
 	],
 	"meshes":[
@@ -28,9 +46,23 @@
 						"NORMAL":1,
 						"TEXCOORD_0":2
 					},
-					"indices":3
+					"indices":3,
+					"material":0
 				}
 			]
+		}
+	],
+	"textures":[
+		{
+			"sampler":0,
+			"source":0
+		}
+	],
+	"images":[
+		{
+			"mimeType":"image/jpeg",
+			"name":"2k_earth_daymap",
+			"uri":"2k_earth_daymap.jpg"
 		}
 	],
 	"accessors":[
@@ -39,14 +71,14 @@
 			"componentType":5126,
 			"count":31744,
 			"max":[
-				0.9872310161590576,
-				0.9975767135620117,
-				0.9872307181358337
+				1.5141410827636719,
+				1.5300084352493286,
+				1.5141408443450928
 			],
 			"min":[
-				-0.9872305393218994,
-				-0.9975767135620117,
-				-0.9872310161590576
+				-1.514140248298645,
+				-1.5300084352493286,
+				-1.514141321182251
 			],
 			"type":"VEC3"
 		},
@@ -95,10 +127,16 @@
 			"target":34963
 		}
 	],
+	"samplers":[
+		{
+			"magFilter":9729,
+			"minFilter":9987
+		}
+	],
 	"buffers":[
 		{
 			"byteLength":1111040,
-			"uri":"Sphere.bin"
+			"uri":"Earth.bin"
 		}
 	]
 }

@@ -24,9 +24,11 @@ namespace Simulator
 
 		Shader() = default;
 		Shader(std::string pShaderPath);
+		Shader(const std::string& pVertexSource, const std::string& pFragmentSource);
 		~Shader();
 
 		int CreateShader(std::string pShaderPath);
+		int CreateShader(const std::string& pVertexSource, const std::string& pFragmentSource);
 		int DeleteShader();
 
 		void Bind() const;

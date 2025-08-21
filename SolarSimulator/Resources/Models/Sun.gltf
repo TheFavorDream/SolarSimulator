@@ -15,7 +15,25 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"Sphere"
+			"name":"Sphere",
+			"scale":[
+				1,
+				1.0887070894241333,
+				1
+			]
+		}
+	],
+	"materials":[
+		{
+			"doubleSided":true,
+			"name":"Material.001",
+			"pbrMetallicRoughness":{
+				"baseColorTexture":{
+					"index":0
+				},
+				"metallicFactor":0.19090908765792847,
+				"roughnessFactor":0.8227273225784302
+			}
 		}
 	],
 	"meshes":[
@@ -28,9 +46,23 @@
 						"NORMAL":1,
 						"TEXCOORD_0":2
 					},
-					"indices":3
+					"indices":3,
+					"material":0
 				}
 			]
+		}
+	],
+	"textures":[
+		{
+			"sampler":0,
+			"source":0
+		}
+	],
+	"images":[
+		{
+			"mimeType":"image/jpeg",
+			"name":"2k_sun",
+			"uri":"2k_sun.jpg"
 		}
 	],
 	"accessors":[
@@ -95,10 +127,16 @@
 			"target":34963
 		}
 	],
+	"samplers":[
+		{
+			"magFilter":9729,
+			"minFilter":9987
+		}
+	],
 	"buffers":[
 		{
 			"byteLength":1111040,
-			"uri":"Sphere.bin"
+			"uri":"Sun.bin"
 		}
 	]
 }

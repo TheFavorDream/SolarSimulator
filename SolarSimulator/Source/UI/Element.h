@@ -2,7 +2,7 @@
 #include "../Core.h"
 #include "../../3rdParty/imgui/imgui.h"
 #include "../LogSys/Log.h"
-
+#include <string>
 
 namespace Simulator
 {

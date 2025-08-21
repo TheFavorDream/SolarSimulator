@@ -17,7 +17,7 @@ namespace Simulator
 
 	ElementBuffer::~ElementBuffer()
 	{
-		//FreeBuffer();
+		FreeBuffer();
 	}
 
 	void ElementBuffer::operator=(ElementBuffer && Other) noexcept
@@ -38,7 +38,7 @@ namespace Simulator
 	void ElementBuffer::FreeBuffer()
 	{
 		Unbind();
-		glDeleteBuffers(GL_ELEMENT_ARRAY_BUFFER, &m_BufferID);
+		glDeleteBuffers(1, &m_BufferID);
 	}
 
 	void ElementBuffer::Bind() const

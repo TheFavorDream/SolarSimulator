@@ -104,11 +104,7 @@ namespace Simulator
 				m_Yaw += 360.0f;
 			}
 
-			glm::vec3 Dir;
-			Dir.x = cos(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
-			Dir.y = sin(glm::radians(m_Pitch));
-			Dir.z = sin(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
-			m_Front = glm::normalize(Dir);
+			UpdateCameraDirection();
 
 		}
 		else
@@ -135,5 +131,27 @@ namespace Simulator
 	void Camera::SetPosition(float pX, float pY, float pZ)
 	{
 		m_Position = glm::vec3(pX, pY, pZ);
+	}
+
+	void Camera::SetYaw(float pYaw)
+	{
+		m_Yaw = pYaw;
+		glm::vec3 Dir;
+		UpdateCameraDirection();
+	}
+
+	void Camera::SetPitch(float pPitch)
+	{
+		m_Pitch = pPitch;
+		UpdateCameraDirection();
+
+	}
+	void Camera::UpdateCameraDirection()
+	{
+		glm::vec3 Dir;
+		Dir.x = cos(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
+		Dir.y = sin(glm::radians(m_Pitch));
+		Dir.z = sin(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
+		m_Front = glm::normalize(Dir);
 	}
 };

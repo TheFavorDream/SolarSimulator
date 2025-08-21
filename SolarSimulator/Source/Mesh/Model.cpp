@@ -1,9 +1,5 @@
 #include "Model.h"
-#include "Model.h"
-#include "Model.h"
-#include "Model.h"
-#include "Model.h"
-#include "Model.h"
+
 
 namespace Simulator
 {
@@ -20,10 +16,24 @@ namespace Simulator
 
 	void Model::Render(Shader & pShader, Camera & pCamera)
 	{
+
 		for (auto &i : m_Mesh)
 		{
+			int32 Mat = i.GetMaterialIndex();
+			if (Mat != -1)
+			{
+				m_Textures[Mat].Bind(0);
+				pShader.SetUniformInt1("Texture", 0);
+			}
+
 			i.Render(pShader, pCamera, m_ModelTransform);
+
+			if (Mat != -1)
+			{
+				m_Textures[Mat].Unbind();
+			}
 		}
+		pShader.Unbind();
 	}
 
 	int Model::LoadModel(std::string pModelFilePath)
@@ -45,17 +55,15 @@ namespace Simulator
 
 		//Loading the Raw Datas in memory:
 		ReadRawModelData(Data);
+		//Loading Textures
+		ProcessMaterials(Data);
 
 		//Process the Json file and Scene Structure
 		if (LoadNodes(Data, Data["scenes"][0]) != 0)
 		{
 			return 1;
 		}
-
-
-		m_RawBuffers.clear();
-
-		//Log::GetSelf()->DebugPrint(Data.dump(4));
+		FreeModel();
 		return 0;
 	}
 
@@ -65,7 +73,6 @@ namespace Simulator
 
 		for (auto &i : pNodes["nodes"])
 		{
-			Log::GetSelf()->SetInfo("node: %i", int(i));
 			if (LoadMeshes(pRoot, pRoot["nodes"][int(i)]["mesh"]) != 0)
 			{
 				Log::GetSelf()->SetInfo("Failed to Load Mesh");
@@ -85,45 +92,17 @@ namespace Simulator
 		uint32 AccessorNormals = (uint32)pRoot["meshes"][pMeshIndex]["primitives"][0]["attributes"]["NORMAL"];
 		uint32 AccessorTexCoords = (uint32)pRoot["meshes"][pMeshIndex]["primitives"][0]["attributes"]["TEXCOORD_0"];
 		uint32 AccessorIndcies = (uint32)pRoot["meshes"][pMeshIndex]["primitives"][0]["indices"];
+		int32 AccessorMaterial = (int32)pRoot["meshes"][pMeshIndex]["primitives"][0].value("material", -1);
 
 		std::vector<Vertex> Vertices;
 
-		//Retriving Position Data:
-		std::string PositionData;
-		GetRawData(PositionData, pRoot, (uint32)pRoot["accessors"][AccessorPosition]["bufferView"]);
-
-		uint32 ComponentSize = 4;
-		uint32 ComponentPerVertex = 3;
-		uint32 Count = (uint32)pRoot["accessors"][AccessorPosition]["count"];
-
-		for (int i = 0, Offset= 0; i < Count; i++)
-		{
-			glm::vec3 Position;
-			std::string V = PositionData.substr(Offset,12);
-			memcpy(&Position, &V[0], ComponentSize*ComponentPerVertex);
-			Offset += (ComponentSize * ComponentPerVertex);
-			Vertices.push_back({Position, glm::vec3(0.0f), glm::vec2(0.0f)});
-		}
-
-		//Retriving Normals:
-
-		std::string NormalData;
-		GetRawData(NormalData, pRoot, (uint32)pRoot["accessors"][AccessorNormals]["bufferView"]);
-
-		for (int i = 0, Offset = 0; i < Count; i++)
-		{
-			glm::vec3 Position;
-			std::string V = NormalData.substr(Offset, 12);
-			memcpy(&Position, &V[0], ComponentSize*ComponentPerVertex);
-			Offset += (ComponentSize * ComponentPerVertex);
-			Vertices[i].Normal = Position;
-		}
-		
+		std::vector<glm::vec3> Positions = RetriveVec3(pRoot, AccessorPosition);
+		std::vector<glm::vec3> Normals = RetriveVec3(pRoot, AccessorNormals);
+		std::vector<glm::vec2> TexCoords = RetriveVec2(pRoot, AccessorTexCoords);
 
 		//Retriving indcies:
 		std::string IndicesData;
 		GetRawData(IndicesData, pRoot, (uint32)pRoot["accessors"][AccessorIndcies]["bufferView"]);
-
 		uint32 IndicesCount = (uint32)pRoot["accessors"][AccessorIndcies]["count"];
 		uint32 TypeSize = 2;
 
@@ -139,11 +118,13 @@ namespace Simulator
 		}
 
 
-		Mesh New(Vertices, Indices);
+		//Combining Attribs:
+		for (int i = 0; i < Positions.size(); i++)
+		{
+			Vertices.push_back({Positions[i], Normals[i], TexCoords[i]});
+		}
 
-		//Retriving Transforms:
-
-		//New.GetMatrix() = glm::scale(New.GetMatrix(), glm::vec3(pRoot["nodes"][pMeshIndex]["scale"][0], pRoot["nodes"][pMeshIndex]["scale"][0], pRoot["nodes"][pMeshIndex]["scale"][0]));
+		Mesh New(Vertices, Indices, AccessorMaterial);
 
 		m_Mesh.push_back(std::move(New));
 
@@ -197,8 +178,102 @@ namespace Simulator
 		}
 		return 0;
 	}
+
+	int Model::ProcessMaterials(Json & pRoot)
+	{
+		int index = 0;
+		for (auto &i : pRoot["textures"])
+		{
+			uint32 Sampler = (uint32)i["sampler"];
+			GLenum Min = pRoot["samplers"][Sampler]["minFilter"];
+			GLenum Mag = pRoot["samplers"][Sampler]["magFilter"];
+
+
+			uint32 Source = (uint32)i["source"];
+
+			std::string Path = m_ParentDir + "\\" + std::string(pRoot["images"][Source]["uri"]);
+
+			Log::GetSelf()->SetInfo("Texture: Min:%i Mag:%i uri:%s", Min, Mag, std::string(pRoot["images"][Source]["uri"]));
+			m_Textures[index].CreateTexture(Path, Min, Mag, false);
+			index++;
+		}
+		return 0;
+	}
+
+	std::vector<glm::vec3> Model::RetriveVec3(Json & pRoot, uint32 pAccessorName)
+	{
+		//We check first if it is the correct data type
+		if (pRoot["accessors"][pAccessorName]["type"] != "VEC3")
+			return std::vector<glm::vec3>();
+
+
+		//Retrive some values
+		uint32 Count =       (uint32)pRoot["accessors"][pAccessorName]["count"];
+		uint32 BufferIndex = (uint32)pRoot["accessors"][pAccessorName]["bufferView"];
+
+		uint32 ComponentPerVertex = 3;
+		uint32 SizeOfComponent = sizeof(float);
+
+		std::vector<glm::vec3> Vecs;
+
+		std::string Data;
+		GetRawData(Data, pRoot, BufferIndex);
+
+		uint32 Offset = 0;
+
+		//Slicing Data
+		for (int i = 0; i < Count; i++)
+		{
+			glm::vec3 Current;
+			std::string Slice = Data.substr(Offset, ComponentPerVertex*SizeOfComponent);
+			memcpy((void*)&Current, (void*)&Slice[0], ComponentPerVertex*SizeOfComponent);
+			Offset += (ComponentPerVertex * SizeOfComponent);
+			Vecs.push_back(Current);
+		}
+
+		return Vecs;
+	}
+
+	std::vector<glm::vec2> Model::RetriveVec2(Json & pRoot, uint32 pAccessorName)
+	{
+		if (pRoot["accessors"][pAccessorName]["type"] != "VEC2")
+			return std::vector<glm::vec2> ();
+
+		//Retrive some values
+		uint32 Count = (uint32)pRoot["accessors"][pAccessorName]["count"];
+		uint32 BufferIndex = (uint32)pRoot["accessors"][pAccessorName]["bufferView"];
+
+		uint32 ComponentPerVertex = 2;
+		uint32 SizeOfComponent = sizeof(float);
+
+		std::vector<glm::vec2> Vecs;
+
+		std::string Data;
+		GetRawData(Data, pRoot, BufferIndex);
+
+		uint32 Offset = 0;
+
+		//Slicing Data
+		for (int i = 0; i < Count; i++)
+		{
+			glm::vec2 Current;
+			std::string Slice = Data.substr(Offset, ComponentPerVertex*SizeOfComponent);
+			memcpy((void*)&Current, (void*)&Slice[0], ComponentPerVertex*SizeOfComponent);
+			Offset += (ComponentPerVertex * SizeOfComponent);
+			Vecs.push_back(Current);
+		}
+
+		return Vecs;
+
+	}
+
+
+
+
+
 	int Model::FreeModel()
 	{
+		m_RawBuffers.clear();
 		return 0;
 	}
 

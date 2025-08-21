@@ -32,7 +32,7 @@
           "ID": "Show Setter Menu",
           "PosX": 10.0,
           "PosY": 60.0,
-          "State":  false
+          "State": false
         },
         {
           "Type": "Checkbox",
@@ -50,10 +50,45 @@
         },
         {
           "Type": "Text",
-          "ID": "DeltaT",
-          "Content": "Delta Time:",
+          "ID": "CameraInfo:",
+          "Content": "Camera Position:",
           "PosX": 10.0,
           "PosY": 120.0
+        },
+        {
+          "Type": "Text",
+          "ID": "CameraPosX",
+          "Content": "",
+          "PosX": 10.0,
+          "PosY": 140.0
+        },
+        {
+          "Type": "Text",
+          "ID": "CameraPosY",
+          "Content": "",
+          "PosX": 10.0,
+          "PosY": 160.0
+        },
+        {
+          "Type": "Text",
+          "ID": "CameraPosZ",
+          "Content": "",
+          "PosX": 10.0,
+          "PosY": 180.0
+        },
+        {
+          "Type": "Text",
+          "ID": "CameraYaw",
+          "Content": "",
+          "PosX": 10.0,
+          "PosY": 200.0
+        },
+        {
+          "Type": "Text",
+          "ID": "CameraPitch",
+          "Content": "",
+          "PosX": 10.0,
+          "PosY": 220.0
         }
 
 

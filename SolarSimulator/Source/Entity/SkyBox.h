@@ -22,7 +22,7 @@ namespace Simulator
 		 SkyBox() = default;
 		~SkyBox();
 
-		void CreateSkyBox(std::string pTexturePath);
+		void CreateSkyBox(std::string pSubPath, const std::vector<std::string>& pFiles);
 		void FreeSkyBox();
 
 		void RenderSkyBox(Camera& pCamera);

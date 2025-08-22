@@ -1,6 +1,9 @@
 #include "Application.h"
 
 
+#define PATH "../../../SolarSimulator/Resources/"
+//#define PATH "Resources/"
+
 
 namespace Simulator
 {
@@ -41,23 +44,24 @@ namespace Simulator
 		m_Camera.SetPitch(-41.0f);
 		m_Camera.SetYaw(-274.0f);
 
-		m_Shader.CreateShader("Resources\\Shaders\\basic.glsl");
-		m_SunShader.CreateShader("Resources\\Shaders\\Sun.glsl");
+		m_Shader.CreateShader(std::string(PATH) + "Shaders/basic.glsl");
+		m_SunShader.CreateShader(std::string(PATH) + "/Shaders/Sun.glsl");
 
-		m_UI->LoadUI("Resources\\UI\\UI.json");
+		m_UI->LoadUI(std::string(PATH) + "UI/UI.json");
 
-		m_Sun.LoadModel("Resources\\Models\\Sun.glb");
-		m_Mercury.LoadModel("Resources\\Models\\Mercury.glb");
-		m_Venus.LoadModel("Resources\\Models\\Venus.glb");
-		m_Earth.LoadModel("Resources\\Models\\Earth.glb");
-		m_Mars.LoadModel("Resources\\Models\\Mars.glb");
-		m_Jupiter.LoadModel("Resources\\Models\\Jupiter.glb");
-		m_Saturn.LoadModel("Resources\\Models\\Saturn.glb");
-		m_SaturnRing.LoadModel("Resources\\Models\\SaturnRing.glb");
-		m_Uranus.LoadModel("Resources\\Models\\Uranus.glb");
-		m_Neptone.LoadModel("Resources\\Models\\Neptone.glb");
+		m_Sun.LoadModel(std::string(PATH) + "Models/Sun.glb");
+		m_Mercury.LoadModel(std::string(PATH) + "Models/Mercury.glb");
+		m_Venus.LoadModel(std::string(PATH) + "Models/Venus.glb");
+		m_Earth.LoadModel(std::string(PATH) + "Models/Earth.glb");
+		m_Mars.LoadModel(std::string(PATH) + "Models/Mars.glb");
+		m_Jupiter.LoadModel(std::string(PATH) + "Models/Jupiter.glb");
+		m_Saturn.LoadModel(std::string(PATH) + "Models/Saturn.glb");
+		m_SaturnRing.LoadModel(std::string(PATH) + "Models/SaturnRing.glb");
+		m_Uranus.LoadModel(std::string(PATH) + "Models/Uranus.glb");
+		m_Neptone.LoadModel(std::string(PATH) + "Models/Neptone.glb");
 
-		//m_Skybox.CreateSkyBox("C:\\Users\\TheVoltage\\Desktop\\SolarSimulator\\SolarSimulator\\Resources\\Assets\\test.jpg");
+		std::vector<std::string> Paths = { "right.png", "left.png", "bottom.png", "top.png", "front.png", "back.png" };
+		m_Skybox.CreateSkyBox(std::string(PATH) + "Assets/", Paths);
 
 		m_Shader.SetUniformFloat1("AmbientStrength", 0.1f);
 		m_Shader.SetUniformFloat3("SunPosition", m_SunPos.x, m_SunPos.y, m_SunPos.z);
@@ -121,7 +125,7 @@ namespace Simulator
 		m_SaturnRing.GetModelMatrix() = glm::mat4(1.0f);
 		m_SaturnRing.GetModelMatrix() = glm::translate(m_SaturnRing.GetModelMatrix(), glm::vec3(sin(Time*0.06f)*70.0f, 0.0f, cos(Time*0.06f)*70.0f));
 		m_SaturnRing.GetModelMatrix() = glm::scale(m_SaturnRing.GetModelMatrix(), glm::vec3(3.0f, 0.01f, 3.0f));
-		m_SaturnRing.GetModelMatrix() = glm::rotate(m_SaturnRing.GetModelMatrix(), glm::radians(Time*50.0f), glm::vec3(0.0f, 1.0f, 0.2f));
+		m_SaturnRing.GetModelMatrix() = glm::rotate(m_SaturnRing.GetModelMatrix(), glm::radians(Time*50.0f), glm::vec3(0.5f, 1.0f, 0.2f));
 
 		m_Uranus.GetModelMatrix() = glm::mat4(1.0f);
 		m_Uranus.GetModelMatrix() = glm::translate(m_Uranus.GetModelMatrix(), glm::vec3(sin(Time*0.07f)*80.0f, 0.0f, cos(Time*0.07f)*80.0f));
@@ -165,7 +169,7 @@ namespace Simulator
 		m_SaturnRing.Render(m_Shader, m_Camera);
 		m_Uranus.Render(m_Shader, m_Camera);
 		m_Neptone.Render(m_Shader, m_Camera);
-		//m_Skybox.RenderSkyBox(m_Camera);
+		m_Skybox.RenderSkyBox(m_Camera);
 
 
 		m_UI->Render(); //Rendering UI Eelemts.

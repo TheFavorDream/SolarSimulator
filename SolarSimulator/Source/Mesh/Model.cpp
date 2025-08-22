@@ -96,6 +96,7 @@ namespace Simulator
 		if (!Source.is_open())
 		{
 			Log::GetSelf()->SetError("Unable to Open Model File: %s", pFilePath);
+			return 1;
 		}
 
 		Source.seekg(0, Source.end);

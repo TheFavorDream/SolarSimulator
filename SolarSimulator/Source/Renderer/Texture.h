@@ -76,7 +76,7 @@ namespace Simulator
 		//This will use the same single texture to fill all 6 sides:
 		int CreateTexture(std::string pFilePath, GLenum pMin = GL_LINEAR, GLenum pMag = GL_LINEAR, bool pFlipVerticaly = true, bool pKeepCache = false) override;
 		// Gets 6 textures and makes a cube map
-		int CreateTexture(std::string pDirectoryPath, std::vector<std::string> pFiles, bool pKeepCache=false);
+		int CreateTexture(std::string pDirectoryPath, const std::vector<std::string>& pFiles, bool pKeepCache=false);
 
 		int FreeTexture() override;
 

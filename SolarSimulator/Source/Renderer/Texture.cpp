@@ -172,8 +172,32 @@ namespace Simulator
 
 		return 0;
 	}
-	int TextureCube::CreateTexture(std::string pDirectoryPath, std::vector<std::string> pFiles, bool pKeepCache)
+	int TextureCube::CreateTexture(std::string pDirectoryPath, const std::vector<std::string>& pFiles, bool pKeepCache)
 	{
+
+		glGenTextures(1, &m_TextureID);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, m_TextureID);
+		for (int i = 0; i < 6; i++)
+		{
+			stbi_set_flip_vertically_on_load(true);
+			m_Data = stbi_load((pDirectoryPath + pFiles[i]).c_str(), &m_Width, &m_Height, &m_Channels, NULL);
+
+			if (m_Data == NULL)
+			{
+				Log::GetSelf()->SetError("Unable to Load Texture from %s", pFiles[i]);
+				continue;
+			}
+
+
+			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+			GLenum Format = Texture::GetColorChannel(m_Channels);
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, Format, m_Width, m_Height, 0, Format, GL_UNSIGNED_BYTE, (void*)m_Data);
+			stbi_image_free(m_Data);
+		}
 		return 0;
 	}
 

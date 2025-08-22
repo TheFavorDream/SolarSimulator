@@ -2,7 +2,7 @@
 
 Simulator::SkyBox::SkyBox(std::string pTexturePath)
 {
-	CreateSkyBox(pTexturePath);
+	
 }
 Simulator::SkyBox::~SkyBox()
 {
@@ -10,10 +10,10 @@ Simulator::SkyBox::~SkyBox()
 }
 
 
-void Simulator::SkyBox::CreateSkyBox(std::string pTexturePath)
+void Simulator::SkyBox::CreateSkyBox(std::string pSubPath, const std::vector<std::string>& pFiles)
 {
 	m_Shader.CreateShader(m_VertexShader, m_FragmentShader);
-	m_CubeMap.CreateTexture(pTexturePath, GL_LINEAR, GL_LINEAR, false);
+	m_CubeMap.CreateTexture(pSubPath, pFiles, false);
 	m_Shader.SetUniformInt1("skybox", 0);
 	m_Cube.SetUp(m_Vertices, std::vector<uint16>());
 	m_Cube.GetMatrix() = glm::mat4(1.0f);

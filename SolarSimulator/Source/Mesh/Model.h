@@ -12,6 +12,8 @@
 #include "../LogSys/Log.h"
 #include "../Core.h"
 
+#define GLB_MAGIC 0x46546C67
+
 namespace Simulator
 {
 
@@ -34,6 +36,19 @@ namespace Simulator
 		inline glm::mat4& GetModelMatrix() { return m_ModelTransform; }
 
 	private:
+
+
+
+		/*
+			we have to version of the loader:
+			LoadGLTF: Loads files that have seperate Json file and data files. it's good for editing.
+			LoadGLB: Loads a signle self contained .glb file. it's good for shiping the program.
+		*/
+
+		int LoadGLTF(const std::string& pFilePath);
+		int LoadGLB(const std::string& pFilePath);
+
+
 
 		int LoadNodes(Json& pRoot, Json& pNodes);
 		int LoadMeshes(Json& pRoot, int pMeshIndex);

@@ -97,10 +97,10 @@
 
     {
       "Title": "Setter",
-      "SizeX": 400.0,
-      "SizeY": 200.0,
+      "SizeX": 300.0,
+      "SizeY": 400.0,
       "PosX": 300.0,
-      "PosY": 100.0,
+      "PosY": 400.0,
       "LockedPos": false,
 
       "Elements": [
@@ -127,10 +127,35 @@
           "Type": "Button",
           "ID": "Close",
           "PosX": 10.0,
-          "PosY": 110.0,
+          "PosY": 370.0,
           "SizeX": 60.0,
           "SizeY": 20.0
+        },
+        {
+          "Type": "SliderF",
+          "ID": "Constant",
+          "PosX": 10.0,
+          "PosY": 110.0,
+          "Min": 0.0,
+          "Max": 1.0
+        },
+        {
+          "Type": "SliderF",
+          "ID": "Linear",
+          "PosX": 10.0,
+          "PosY": 130.0,
+          "Min": 0.0,
+          "Max": 1.0
+        },
+        {
+          "Type": "SliderF",
+          "ID": "Quad",
+          "PosX": 10.0,
+          "PosY": 150.0,
+          "Min": 0.0,
+          "Max": 1.0
         }
+
       ]
     }
     

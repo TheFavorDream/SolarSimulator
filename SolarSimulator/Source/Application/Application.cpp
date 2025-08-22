@@ -41,21 +41,21 @@ namespace Simulator
 		m_Camera.SetPitch(-41.0f);
 		m_Camera.SetYaw(-274.0f);
 
-		m_Shader.CreateShader("C:\\Users\\TheVoltage\\Desktop\\SolarSimulator\\SolarSimulator\\Resources\\Shaders\\basic.glsl");
-		m_SunShader.CreateShader("C:\\Users\\TheVoltage\\Desktop\\SolarSimulator\\SolarSimulator\\Resources\\Shaders\\Sun.glsl");
+		m_Shader.CreateShader("Resources\\Shaders\\basic.glsl");
+		m_SunShader.CreateShader("Resources\\Shaders\\Sun.glsl");
 
-		m_UI->LoadUI("C:\\Users\\TheVoltage\\Desktop\\SolarSimulator\\SolarSimulator\\Resources\\UI\\UI.json");
+		m_UI->LoadUI("Resources\\UI\\UI.json");
 
-		m_Sun.LoadModel("C:\\Users\\TheVoltage\\Desktop\\SolarSimulator\\SolarSimulator\\Resources\\Models\\Sun.gltf");
-		m_Mercury.LoadModel("C:\\Users\\TheVoltage\\Desktop\\SolarSimulator\\SolarSimulator\\Resources\\Models\\Mercury.gltf");
-		m_Venus.LoadModel("C:\\Users\\TheVoltage\\Desktop\\SolarSimulator\\SolarSimulator\\Resources\\Models\\Venus.gltf");
-		m_Earth.LoadModel("C:\\Users\\TheVoltage\\Desktop\\SolarSimulator\\SolarSimulator\\Resources\\Models\\Earth.gltf");
-		m_Mars.LoadModel("C:\\Users\\TheVoltage\\Desktop\\SolarSimulator\\SolarSimulator\\Resources\\Models\\Mars.gltf");
-		m_Jupiter.LoadModel("C:\\Users\\TheVoltage\\Desktop\\SolarSimulator\\SolarSimulator\\Resources\\Models\\Jupiter.gltf");
-		m_Saturn.LoadModel("C:\\Users\\TheVoltage\\Desktop\\SolarSimulator\\SolarSimulator\\Resources\\Models\\Saturn.gltf");
-		m_SaturnRing.LoadModel("C:\\Users\\TheVoltage\\Desktop\\SolarSimulator\\SolarSimulator\\Resources\\Models\\SaturnRing.gltf");
-		m_Uranus.LoadModel("C:\\Users\\TheVoltage\\Desktop\\SolarSimulator\\SolarSimulator\\Resources\\Models\\Uranus.gltf");
-		m_Neptone.LoadModel("C:\\Users\\TheVoltage\\Desktop\\SolarSimulator\\SolarSimulator\\Resources\\Models\\Neptone.gltf");
+		m_Sun.LoadModel("Resources\\Models\\Sun.glb");
+		m_Mercury.LoadModel("Resources\\Models\\Mercury.glb");
+		m_Venus.LoadModel("Resources\\Models\\Venus.glb");
+		m_Earth.LoadModel("Resources\\Models\\Earth.glb");
+		m_Mars.LoadModel("Resources\\Models\\Mars.glb");
+		m_Jupiter.LoadModel("Resources\\Models\\Jupiter.glb");
+		m_Saturn.LoadModel("Resources\\Models\\Saturn.glb");
+		m_SaturnRing.LoadModel("Resources\\Models\\SaturnRing.glb");
+		m_Uranus.LoadModel("Resources\\Models\\Uranus.glb");
+		m_Neptone.LoadModel("Resources\\Models\\Neptone.glb");
 
 		//m_Skybox.CreateSkyBox("C:\\Users\\TheVoltage\\Desktop\\SolarSimulator\\SolarSimulator\\Resources\\Assets\\test.jpg");
 
@@ -64,20 +64,15 @@ namespace Simulator
 		m_Shader.SetUniformFloat3("LightColor", 1.0f, 1.0f, 1.0f);
 
 
+		m_UI->GetSliderF("Setter", "Constant")->GetValue()=1.0f;
+		m_UI->GetSliderF("Setter", "Linear")->GetValue()=0.021f;
+		m_UI->GetSliderF("Setter", "Quad")->GetValue()=0.0f;
 
 	}
 
 
 	void Application::Input()
 	{
-		static uint32 LastTime = 0;
-		uint32 Current = glfwGetTime();
-		if (glfwGetKey(m_Window->GetWindow(), GLFW_KEY_R) == GLFW_PRESS && Current - LastTime >= 1)
-		{
-			m_UI->LoadUI("C:\\Users\\TheVoltage\\Desktop\\SolarSimulator\\SolarSimulator\\Resources\\UI\\UI.json");
-			LastTime = Current;
-		}
-
 		m_UI->SetWindowRenderState("Setter",m_UI->GetCheckbox("Config", "Show Setter Menu")->GetState());
 
 
@@ -149,6 +144,11 @@ namespace Simulator
 
 		m_UI->GetText("Config", "CameraYaw")->GetText() = "Camera Yaw:" + std::to_string(m_Camera.GetYaw());
 		m_UI->GetText("Config", "CameraPitch")->GetText() = "Camera Pitch:" + std::to_string(m_Camera.GetPitch());
+
+		m_Shader.SetUniformFloat1("Constant", m_UI->GetSliderF("Setter", "Constant")->GetValue());
+		m_Shader.SetUniformFloat1("Linear", m_UI->GetSliderF("Setter", "Linear")->GetValue());
+		m_Shader.SetUniformFloat1("Quad", m_UI->GetSliderF("Setter", "Quad")->GetValue());
+
 	}
 
 	void Application::Render()
@@ -162,7 +162,7 @@ namespace Simulator
 		m_Mars.Render(m_Shader, m_Camera);
 		m_Jupiter.Render(m_Shader, m_Camera);
 		m_Saturn.Render(m_Shader, m_Camera);
-		m_SaturnRing.Render(m_SunShader, m_Camera);
+		m_SaturnRing.Render(m_Shader, m_Camera);
 		m_Uranus.Render(m_Shader, m_Camera);
 		m_Neptone.Render(m_Shader, m_Camera);
 		//m_Skybox.RenderSkyBox(m_Camera);

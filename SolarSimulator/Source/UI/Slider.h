@@ -32,7 +32,7 @@ namespace Simulator
 			ImGui::SliderFloat(m_ID.c_str(), &m_Value, m_Min, m_Max);
 		}
 
-		inline float GetValue() { return m_Value; }
+		inline float& GetValue() { return m_Value; }
 		inline float GetMin() { return m_Min; }
 		inline float GetMax() { return m_Max; }
 		

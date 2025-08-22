@@ -38,19 +38,41 @@ namespace Simulator
 
 	int Model::LoadModel(std::string pModelFilePath)
 	{
+
+		std::string Prefix = pModelFilePath.substr(pModelFilePath.find_last_of(".")+1);
+
+		if (Prefix == "gltf")
+		{
+			LoadGLTF(pModelFilePath);
+		}
+		else if (Prefix == "glb")
+		{
+			LoadGLB(pModelFilePath);
+		}
+		else
+		{
+			Log::GetSelf()->SetError("Invalid model file: %s", Prefix);
+		}
+
+		FreeModel();
+		return 0;
+	}
+
+	int Model::LoadGLTF(const std::string & pFilePath)
+	{
 		//Reading and Parsing the gltf file:
-		std::ifstream ModelSource(pModelFilePath, std::ios::in);
-	
+		std::ifstream ModelSource(pFilePath, std::ios::in);
+
 		if (ModelSource.fail())
 		{
-			Log::GetSelf()->SetError("Cannot Open Model at %s", pModelFilePath);
+			Log::GetSelf()->SetError("Cannot Open Model at %s", pFilePath);
 			return 1; //Exit
 		}
 		Json Data = Json::parse(ModelSource);
 		ModelSource.close();
 
-		m_ParentDir = pModelFilePath.substr(0, pModelFilePath.find_last_of("\\"));
-		Log::GetSelf()->SetInfo("Loading Model from %s", m_ParentDir);
+		m_ParentDir = pFilePath.substr(0, pFilePath.find_last_of("\\"));
+		Log::GetSelf()->SetInfo("Loading Model from %s", pFilePath);
 
 
 		//Loading the Raw Datas in memory:
@@ -63,7 +85,75 @@ namespace Simulator
 		{
 			return 1;
 		}
-		FreeModel();
+		return 0;
+	}
+
+	int Model::LoadGLB(const std::string & pFilePath)
+	{
+
+		//Opening and Reading the model binary file:
+		std::ifstream Source(pFilePath, std::ios::in | std::ios::binary);
+		if (!Source.is_open())
+		{
+			Log::GetSelf()->SetError("Unable to Open Model File: %s", pFilePath);
+		}
+
+		Source.seekg(0, Source.end);
+		uint32 FileSize = Source.tellg();
+		Source.seekg(0, Source.beg);
+
+		std::string Data; Data.resize(FileSize);
+		Source.read(&Data[0], FileSize);
+		Source.close();
+
+		//Slicing the binary Data into chunks:
+
+
+		//Processing the header:
+		std::string Header = Data.substr(0, 12); //Reading the Header
+		uint32 Magic;
+		uint32 Length;
+
+		memcpy((void*)&Magic, (void*)&Header.substr(0, 4), 4);
+		memcpy((void*)&Length, (void*)&Header.substr(8, 4), 4);
+
+
+		//Check the magic number
+		if (Magic != GLB_MAGIC)
+		{
+			Log::GetSelf()->SetError("Invalid file. unmatching magic number");
+			return 1;
+		}
+		Log::GetSelf()->SetInfo("Read GLB File. Length:%i bytes", Length);
+
+		//Processing the Json:
+
+		uint32 JsonChunkLength = 0;
+		memcpy((void*)&JsonChunkLength, (void*)&Data.substr(12, 4), 4);
+
+		std::string JsonData = Data.substr(20, JsonChunkLength);
+
+		Json Root = Json::parse(JsonData);
+
+		//Processing binary Chunk:
+
+		uint32 BinaryChunkSize = 0;
+		memcpy((void*)&BinaryChunkSize, (void*)&Data.substr(JsonChunkLength+20, 4), 4);
+		
+		if (BinaryChunkSize + JsonChunkLength + 28 != Length)
+		{
+			Log::GetSelf()->SetError("Corrupted Data. unmatched chunk sized with file length");
+		}
+	
+		m_RawBuffers[0] = Data.substr(28+JsonChunkLength, BinaryChunkSize);
+
+		ProcessMaterials(Root);
+		
+		if (LoadNodes(Root, Root["scenes"][0]) != 0)
+		{
+			return 1;
+		}
+
 		return 0;
 	}
 
@@ -190,11 +280,21 @@ namespace Simulator
 
 
 			uint32 Source = (uint32)i["source"];
+			
+			//if there is a uri we load it, and if not we read from bufferview
+			if (pRoot["images"][Source].find("uri") != pRoot["images"][Source].end())
+			{
+				std::string Path = m_ParentDir + "\\" + std::string(pRoot["images"][Source]["uri"]);
+				m_Textures[index].CreateTexture(Path, Min, Mag, false);
+			}
+			else
+			{
+				std::string Texture;
+				GetRawData(Texture, pRoot, (uint32)pRoot["images"][Source]["bufferView"]);
+				const char* Data = Texture.c_str();
+				m_Textures[index].CreateTextureFromMemory((uint8*)Data, Texture.length() , Min, Mag, false);
+			}
 
-			std::string Path = m_ParentDir + "\\" + std::string(pRoot["images"][Source]["uri"]);
-
-			Log::GetSelf()->SetInfo("Texture: Min:%i Mag:%i uri:%s", Min, Mag, std::string(pRoot["images"][Source]["uri"]));
-			m_Textures[index].CreateTexture(Path, Min, Mag, false);
 			index++;
 		}
 		return 0;

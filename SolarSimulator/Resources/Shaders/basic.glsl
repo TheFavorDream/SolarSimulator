@@ -15,7 +15,7 @@ uniform mat4 Projection;
 
 void main()
 {
-	aNormals = Normals;
+	aNormals = mat3(Model) * Normals;
 	aTexCoords = TexCoords;
 	aFragPos = vec3(Model * vec4(Position, 1.0f));
 	gl_Position = Projection * View * Model * vec4(Position, 1.0f);
@@ -36,6 +36,10 @@ uniform float AmbientStrength;
 uniform vec3 SunPosition;
 uniform vec3 LightColor;
 
+uniform float Constant;
+uniform float Linear;
+uniform float Quad;
+
 out vec4 FragColor;
 
 
@@ -49,7 +53,9 @@ void main ()
 	vec3 Diffuse = Diff * LightColor;
 
 
+	float Dis = length(SunPosition - aFragPos);
+	float att = 1.0 / (Constant + Linear*Dis + Quad*(Dis*Dis));
 
-	FragColor = vec4((Ambient+Diffuse) * vec3(texture(Texture, aTexCoords)), 1.0f);
+	FragColor = vec4((Ambient+Diffuse)*att, 1.0f) * texture(Texture, aTexCoords);
 	//FragColor  = vec4(aNormals, 1.0f);
 }

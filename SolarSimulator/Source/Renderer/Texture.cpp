@@ -72,6 +72,35 @@ namespace Simulator
 		return 0;
 	}
 
+	int Texture2D::CreateTextureFromMemory(uint8 * pData, uint32 pLength, GLenum pMin, GLenum pMag, bool pFlipVerticaly)
+	{
+		stbi_set_flip_vertically_on_load(pFlipVerticaly);
+		m_Data = stbi_load_from_memory(pData, pLength , &m_Width, &m_Height, &m_Channels, NULL);
+
+		if (m_Data == NULL)
+		{
+			Log::GetSelf()->SetError("Unable to Load Texture from memory");
+			return 1;
+		}
+
+		glGenTextures(1, &m_TextureID);
+		glBindTexture(GL_TEXTURE_2D, m_TextureID);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+		GLenum Format = Texture::GetColorChannel(m_Channels);
+		glTexImage2D(GL_TEXTURE_2D, 0, Format, m_Width, m_Height, 0, Format, GL_UNSIGNED_BYTE, (void*)m_Data);
+
+		
+		stbi_image_free(m_Data);
+		m_Data = NULL;
+		
+		return 0;
+	}
+
 
 	int Texture2D::FreeTexture()
 	{

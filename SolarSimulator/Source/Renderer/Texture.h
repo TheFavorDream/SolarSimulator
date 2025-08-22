@@ -54,6 +54,7 @@ namespace Simulator
 		~Texture2D();
 
 		int CreateTexture(std::string pFilePath, GLenum pMin = GL_LINEAR, GLenum pMag = GL_LINEAR, bool pFlipVerticaly=true, bool pKeepCache = false) override;
+		int CreateTextureFromMemory(uint8* pData, uint32 pLength, GLenum pMin = GL_LINEAR, GLenum pMag = GL_LINEAR, bool pFlipVerticaly = true);
 		int FreeTexture() override;
 
 		void Bind(uint32 Slot = 0) const override;

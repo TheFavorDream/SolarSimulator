@@ -1,0 +1,1 @@
+xcopy ..\SolarSimulator\Resources .\Resources /E /I

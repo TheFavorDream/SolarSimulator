@@ -3,6 +3,7 @@
 #include "../UI/UI.h"
 #include "../LogSys/Log.h"
 #include "../Window/Window.h"
+#include "../Timer/Timer.h"
 #include "../../3rdParty/glfw/include/GLFW/glfw3.h"
 #include "../../3rdParty/glew/include/GL/glew.h"
 #include "../../3rdParty/glm/glm.hpp"

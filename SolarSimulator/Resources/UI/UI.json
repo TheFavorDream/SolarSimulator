@@ -89,6 +89,13 @@
           "Content": "",
           "PosX": 10.0,
           "PosY": 220.0
+        },
+        {
+          "Type": "Text",
+          "ID": "DeltaTime",
+          "Content": "",
+          "PosX": 10.0,
+          "PosY": 240.0
         }
 
 

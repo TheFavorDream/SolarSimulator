@@ -31,12 +31,28 @@ namespace Simulator
 	Renderer::~Renderer()
 	{
 		Log::GetSelf()->SetInfo("Renderer Destructed");
+
+		for (auto &i : m_RenderQueue)
+		{
+			delete i;
+		}
 	}
 
-	void Renderer::Draw()
+	void Renderer::Draw(Camera& pCamera)
 	{
 		glClearColor(m_ClearColor.x, m_ClearColor.y, m_ClearColor.z,  1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		for (auto &i : m_RenderQueue)
+		{
+			i->Render(pCamera);
+		}
+
+	}
+
+	void Renderer::NewEntity(Entity * pEntity)
+	{
+		m_RenderQueue.push_back(pEntity);
 	}
 
 	void Renderer::SetClearColor(glm::vec3 & pClearColor)

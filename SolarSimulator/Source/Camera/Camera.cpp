@@ -11,7 +11,7 @@ namespace Simulator
 		this->m_Position = pPostion;
 		this->m_Front = glm::vec3(0.0f, 0.0f, -1.0f);
 		this->m_Up = glm::vec3(0.0f, 1.0f, 0.0f);
-		this->m_Speed = 0.01f;
+		this->m_Speed = 0.02f;
 		this->m_View = glm::mat4(1.0f);
 		this->m_Projection = glm::mat4(1.0f);
 		Log::GetSelf()->SetInfo("Camera Setted up");
@@ -27,32 +27,33 @@ namespace Simulator
 		if (UI::Self()->IsUsingKeyBoard())
 			return;
 
+		 
 		if (glfwGetKey(Window::GetWindowInstance()->GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
 		{
-			m_Position += m_Front * m_Speed;
+			m_Position += m_Front * m_Speed * Timer::s_DeltaTime;
 		}
 		else if (glfwGetKey(Window::GetWindowInstance()->GetWindow(), GLFW_KEY_S) == GLFW_PRESS)
 		{
-			m_Position += -m_Front * m_Speed;
+			m_Position += -m_Front * m_Speed * Timer::s_DeltaTime;
 		}
 
 		else if (glfwGetKey(Window::GetWindowInstance()->GetWindow(), GLFW_KEY_A) == GLFW_PRESS)
 		{
-			m_Position += -glm::normalize(glm::cross(m_Front, m_Up)) * m_Speed;
+			m_Position += -glm::normalize(glm::cross(m_Front, m_Up)) * m_Speed * Timer::s_DeltaTime;
 		}
 		else if (glfwGetKey(Window::GetWindowInstance()->GetWindow(), GLFW_KEY_D) == GLFW_PRESS)
 		{
-			m_Position += glm::normalize(glm::cross(m_Front, m_Up)) * m_Speed;
+			m_Position += glm::normalize(glm::cross(m_Front, m_Up)) * m_Speed * Timer::s_DeltaTime;
 		}
 
 		else if (glfwGetKey(Window::GetWindowInstance()->GetWindow(), GLFW_KEY_SPACE) == GLFW_PRESS)
 		{
-			m_Position += m_Up * m_Speed;
+			m_Position += m_Up * m_Speed * Timer::s_DeltaTime;
 		}
 
 		else if (glfwGetKey(Window::GetWindowInstance()->GetWindow(), GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
 		{
-			m_Position += -m_Up * m_Speed;
+			m_Position += -m_Up * m_Speed * Timer::s_DeltaTime;
 		}
 
 	}

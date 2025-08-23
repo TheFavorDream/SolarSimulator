@@ -9,6 +9,9 @@
 #include "LogSys/Log.h"
 #include "GL/glew.h"
 #include "../3rdParty/glm/glm.hpp"
+#include "../Entity/Entity.h"
+
+#include "../Camera/Camera.h"
 
 namespace Simulator
 {
@@ -19,7 +22,9 @@ namespace Simulator
 		Renderer();
 		~Renderer();
 
-		void Draw();
+		void Draw(Camera& pCamera);
+
+		void NewEntity(Entity* pEntity);
 
 		void SetClearColor(glm::vec3& pClearColor);
 		void SetClearColor(float pR, float pG, float pB);
@@ -29,6 +34,7 @@ namespace Simulator
 		static Renderer* Get();
 	private:
 		glm::vec3 m_ClearColor = glm::vec3(0.0f);
+		std::vector<Entity*> m_RenderQueue;
 	private:
 		static Renderer* s_Self;
 	};

@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <thread>
+
 #include "Core.h"
 #include "Renderer/Renderer.h"
 #include "Window/Window.h"
@@ -9,6 +11,17 @@
 #include "../Mesh/Model.h"
 #include "Camera/Camera.h"
 #include "Entity/SkyBox.h"
+#include "Timer/Timer.h"
+
+#include "Entity/Celestial/Sun.h"
+#include "Entity/Celestial/Mercury.h"
+#include "Entity/Celestial/Venus.h"
+#include "Entity/Celestial/Earth.h"
+#include "Entity/Celestial/Mars.h"
+#include "Entity/Celestial/Jupiter.h"
+#include "Entity/Celestial/Saturn.h"
+#include "Entity/Celestial/Uranus.h"
+#include "Entity/Celestial/Neptone.h"
 
 #include "../3rdParty/glm/mat4x4.hpp"
 #include "../3rdParty/glm/glm.hpp"
@@ -39,26 +52,10 @@ namespace Simulator
 		UI* m_UI = NULL;
 		Log m_Log;
 
-
 		Camera m_Camera;
-
-		Shader m_Shader;
-		Shader m_SunShader;
-
-		Model m_Sun;
-		Model m_Mercury;
-		Model m_Venus;
-		Model m_Earth;
-		Model m_Mars;
-		Model m_Jupiter;
-		Model m_Saturn;
-		Model m_SaturnRing;
-		Model m_Uranus;
-		Model m_Neptone;
-
 		SkyBox m_Skybox;
 
-		glm::vec3 m_SunPos = glm::vec3(0.0f, 0.0f, 0.0f);
-		glm::vec3 m_EarthPos = glm::vec3(10.0f, -10.f, 10.0f);
+		bool m_LockedFPS = false;
+
 	};
 };

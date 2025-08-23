@@ -56,6 +56,8 @@ void main ()
 	float Dis = length(SunPosition - aFragPos);
 	float att = 1.0 / (Constant + Linear*Dis + Quad*(Dis*Dis));
 
-	FragColor = vec4((Ambient+Diffuse)*att, 1.0f) * texture(Texture, aTexCoords);
+
+	FragColor = texture(Texture, aTexCoords);
+	//FragColor = vec4((Ambient+Diffuse)*att, 1.0f) * texture(Texture, aTexCoords);
 	//FragColor  = vec4(aNormals, 1.0f);
 }

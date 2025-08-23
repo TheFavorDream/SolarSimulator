@@ -160,7 +160,6 @@ namespace Simulator
 
 	int Model::LoadNodes(Json& pRoot, Json& pNodes)
 	{
-		Log::GetSelf()->SetInfo("Model: %s", std::string(pNodes["name"]));
 
 		for (auto &i : pNodes["nodes"])
 		{

@@ -10,13 +10,14 @@ namespace Simulator
 	{
 	public:
 
-		Mars(std::string pModelPath, std::string pShaderPath);
+		Mars(std::string pModelPath, uint32 pShader);
 		~Mars();
 
-		void Render(Camera& pCamera) override;
+		void Render() override;
 
 	private:
-
+		Texture2D m_Texture;
+		float Radius = 40.0f;
 	};
 };
 

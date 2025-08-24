@@ -10,13 +10,17 @@ namespace Simulator
 	{
 	public:
 
-		Earth(std::string pModelPath, std::string pShaderPath);
+		Earth(std::string pModelPath, uint32 pShader);
 		~Earth();
 
-		void Render(Camera& pCamera) override;
+		void Render() override;
 
 	private:
+		Texture2D m_EarthTexture;
+		Texture2D m_EarthClouds;
+		Texture2D m_EarthSpecMap;
 
+		float Radius = 30.0f;
 	};
 };
 

@@ -61,6 +61,7 @@ namespace Simulator
 		{
 			Log::GetSelf()->SetInfo("Shader Compiled & Linked Successfully. ID:%i", Res);
 		}
+		m_ShadersSources.clear();
 		return Res;
 	}
 
@@ -150,9 +151,9 @@ namespace Simulator
 			return m_UniformLookUp[pName];
 
 		int Loc = glGetUniformLocation(m_ProgramID, pName);
-		if (Loc < 0 && m_ProgramID != 0)
+		if (Loc == -1 && m_ProgramID != 0)
 		{
-			Log::GetSelf()->SetWarning("Cannot Find Uniform: %c in Program: %i", pName, m_ProgramID);
+			//Log::GetSelf()->SetWarning("Cannot Find Uniform: %c in Program: %i", pName, m_ProgramID);
 			return -1;
 		}
 		m_UniformLookUp[pName] = Loc;

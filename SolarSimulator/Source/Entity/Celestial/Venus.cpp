@@ -3,23 +3,31 @@
 
 namespace Simulator
 {
-	Venus::Venus(std::string pModelPath, std::string pShaderPath)
+	Venus::Venus(std::string pModelPath, uint32 pShader)
 	{
-		m_Model.LoadModel(pModelPath);
-		m_Shader.CreateShader(pShaderPath);
+		m_Mesh.LoadMesh(pModelPath);
 
-		m_Position = glm::vec3(0.0f, 0.0f, 20.0f);
+		m_Shader = pShader;
+
+		m_Position = glm::vec3(0.0f, 0.0f, 30.0f);
+		m_Texture.CreateTexture(std::string(ASSETS_PARENT_DIR) + "Venus.jpg", GL_LINEAR, GL_LINEAR, false);
+		ShaderManager::Self()->GetShader(m_Shader).SetUniformInt1("Texture", 0);
 	}
 
 	Venus::~Venus()
 	{
 	}
 
-	void Venus::Render(Camera & pCamera)
+	void Venus::Render()
 	{
-		m_Model.GetModelMatrix() = glm::mat4(1.0f);
-		m_Model.GetModelMatrix() = glm::translate(m_Model.GetModelMatrix(), m_Position);
+		float Time = (float)glfwGetTime()*0.08f;
+		m_Position = glm::vec3(sin(Time)*Radius, 0.0f, cos(Time)*Radius);
+		m_Mesh.GetModelMatrix() = glm::mat4(1.0f);
+		m_Mesh.GetModelMatrix() = glm::translate(m_Mesh.GetModelMatrix(), m_Position);
+		  
 
-		m_Model.Render(m_Shader, pCamera);
+		m_Texture.Bind();
+		m_Mesh.Render(ShaderManager::Self()->GetShader(m_Shader));
+		m_Texture.Unbind();
 	}
 };

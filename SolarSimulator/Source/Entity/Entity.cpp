@@ -11,8 +11,7 @@ namespace Simulator
 
 	Entity::~Entity()
 	{
-		m_Shader.DeleteShader();
-		m_Model.FreeModel();
+		m_Mesh.Free();
 	}
 
 };

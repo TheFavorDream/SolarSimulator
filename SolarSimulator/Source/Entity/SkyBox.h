@@ -25,7 +25,7 @@ namespace Simulator
 		void CreateSkyBox(std::string pSubPath, const std::vector<std::string>& pFiles);
 		void FreeSkyBox();
 
-		void RenderSkyBox(Camera& pCamera);
+		void RenderSkyBox();
 
 	private:
 
@@ -96,7 +96,7 @@ namespace Simulator
 
 		Mesh m_Cube; //Mesh containg the cube that the sky box is being draw on
 		TextureCube m_CubeMap; // Cube map of textures
-		Shader m_Shader; // Sky box shader
+		uint32 m_Shader; // Sky box shader
 	};
 
 };

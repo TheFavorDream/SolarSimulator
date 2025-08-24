@@ -7,6 +7,10 @@
 #include "../Renderer/Texture.h"
 
 #include <vector>
+#include <fstream>
+#include <unordered_map>
+#include "../../3rdParty/JsonParser/Json.h"
+
 
 namespace Simulator
 {
@@ -16,16 +20,30 @@ namespace Simulator
 
 		Mesh() = default;
 		Mesh(const std::vector<Vertex>& pVertices);
-		Mesh(const std::vector<Vertex>& pVertices, const std::vector<uint16>& pIndices, int32 pMaterialIndex);
+		Mesh(const std::vector<Vertex>& pVertices, const std::vector<uint16>& pIndices);
 		Mesh(Mesh&& Other) noexcept; //Move Constructor
 		~Mesh();
 
-		inline glm::mat4& GetMatrix() { return m_Model; }
-		inline int32 GetMaterialIndex() { return m_MaterialIndex; }
 
-		void Render(const Shader& pShader, Camera& pCamera, glm::mat4& pTransform=glm::mat4(1.0f));
+		int LoadMesh(const std::string& pMeshPath);
+		int LoadGLB(const std::string& pFilePath);
+		int Free();
+
+		void Render(const Shader& pShader);
+
+		inline glm::mat4& GetModelMatrix() { return m_Model; }
+
 		void SetUp(const std::vector<Vertex>& pVertices, const std::vector<uint16>& pIndices);
-		void Free();
+
+	private:
+
+		int LoadNodes(Json& pRoot, Json& pNodes);
+		int LoadMesh(Json& pRoot, int pMeshIndex);
+
+		int GetRawData(std::string& pData, Json& pRoot, uint32 pBufferIndex);
+		std::vector<glm::vec3> RetriveVec3(Json& pRoot, uint32 pAccessorName);
+		std::vector<glm::vec2> RetriveVec2(Json& pRoot, uint32 pAccessorName);
+
 
 	private:
 		VertexArray  m_VAO;
@@ -36,6 +54,9 @@ namespace Simulator
 
 		std::vector<Vertex> m_Vertices;
 		std::vector<uint16> m_Indices;
-		int32 m_MaterialIndex = 0;
+
+
+		std::unordered_map<uint32, std::string> m_Buffers;
+
 	};
 };

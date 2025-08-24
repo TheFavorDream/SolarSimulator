@@ -10,13 +10,18 @@ namespace Simulator
 	{
 	public:
 
-		Saturn(std::string pSpherePath, std::string pRingPath, std::string pShaderPath);
+		Saturn(std::string pSpherePath, std::string pRingPath, uint32 pShader);
 		~Saturn();
 
-		void Render(Camera& pCamera) override;
+		void Render() override;
 
 	private:
-		Model m_Ring;
+		Mesh m_Ring;
+		glm::vec3 m_RingPos;
+		Texture2D m_SphereTexture;
+		Texture2D m_RingTexture;
+
+		float Radius = 60.0f;
 	};
 };
 

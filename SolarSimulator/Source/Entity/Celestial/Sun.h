@@ -12,13 +12,15 @@ namespace Simulator
 	public:
 
 
-		 Sun(std::string pModelPath, std::string pShaderPath);
+		 Sun(std::string pModelPath, uint32 pShader);
 		~Sun();
 
-		void Render(Camera& pCamera) override;
+		void Render() override;
+
+
 
 
 	private:
-
+		Texture2D m_SunTexture;
 	};
 };

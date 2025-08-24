@@ -29,7 +29,7 @@ namespace Simulator
 		inline float GetValue1() { return m_Value[0]; }
 		inline float GetValue2() { return m_Value[1]; }
 		inline float GetValue3() { return m_Value[2]; }
-
+		inline glm::vec3 GetValue() { return glm::vec3(m_Value[0], m_Value[1], m_Value[2]); }
 
 	private:
 		float m_Value[3] = {0.0f, 0.0f, 0.0f};

@@ -20,26 +20,11 @@
       "Elements": [
 
         {
-          "Type": "Button",
-          "ID": "Clear Log",
-          "PosX": 10.0,
-          "PosY": 90.0,
-          "SizeX": 100.0,
-          "SizeY": 25.0
-        },
-        {
-          "Type": "Checkbox",
-          "ID": "Show Setter Menu",
-          "PosX": 10.0,
-          "PosY": 60.0,
-          "State": false
-        },
-        {
           "Type": "Checkbox",
           "ID": "Lock FPS to 60",
           "PosX": 10.0,
           "PosY": 20.0,
-          "State": true
+          "State": false
         },
         {
           "Type": "Checkbox",
@@ -49,53 +34,60 @@
           "State": false
         },
         {
+          "Type": "Checkbox",
+          "ID": "Show Setter Menu",
+          "PosX": 10.0,
+          "PosY": 60.0,
+          "State": false
+        },
+        {
           "Type": "Text",
           "ID": "CameraInfo:",
           "Content": "Camera Position:",
           "PosX": 10.0,
-          "PosY": 120.0
+          "PosY": 100.0
         },
         {
           "Type": "Text",
           "ID": "CameraPosX",
           "Content": "",
           "PosX": 10.0,
-          "PosY": 140.0
+          "PosY": 120.0
         },
         {
           "Type": "Text",
           "ID": "CameraPosY",
           "Content": "",
           "PosX": 10.0,
-          "PosY": 160.0
+          "PosY": 140.0
         },
         {
           "Type": "Text",
           "ID": "CameraPosZ",
           "Content": "",
           "PosX": 10.0,
-          "PosY": 180.0
+          "PosY": 160.0
         },
         {
           "Type": "Text",
           "ID": "CameraYaw",
           "Content": "",
           "PosX": 10.0,
-          "PosY": 200.0
+          "PosY": 180.0
         },
         {
           "Type": "Text",
           "ID": "CameraPitch",
           "Content": "",
           "PosX": 10.0,
-          "PosY": 220.0
+          "PosY": 200.0
         },
         {
           "Type": "Text",
           "ID": "DeltaTime",
           "Content": "",
           "PosX": 10.0,
-          "PosY": 240.0
+          "PosY": 220.0
         }
 
 
@@ -104,7 +96,7 @@
 
     {
       "Title": "Setter",
-      "SizeX": 300.0,
+      "SizeX": 350.0,
       "SizeY": 400.0,
       "PosX": 300.0,
       "PosY": 400.0,
@@ -112,55 +104,50 @@
 
       "Elements": [
         {
-          "Type": "Input3F",
-          "ID": "BG Color",
-          "PosX": 10.0,
-          "PosY": 20.0
-        },
-        {
-          "Type": "Input3F",
-          "ID": "Light Position",
-          "PosX": 10.0,
-          "PosY": 50.0
-        },
-        {
           "Type": "Checkbox",
           "ID": "Orbit",
           "PosX": 10.0,
-          "PosY": 80.0,
+          "PosY": 20.0,
           "State": false
         },
         {
-          "Type": "Button",
-          "ID": "Close",
-          "PosX": 10.0,
-          "PosY": 370.0,
-          "SizeX": 60.0,
-          "SizeY": 20.0
-        },
-        {
-          "Type": "SliderF",
+          "Type": "InputF",
           "ID": "Constant",
           "PosX": 10.0,
-          "PosY": 110.0,
-          "Min": 0.0,
-          "Max": 1.0
+          "PosY": 50.0,
+          "Value": 1.0
         },
         {
-          "Type": "SliderF",
+          "Type": "InputF",
           "ID": "Linear",
           "PosX": 10.0,
-          "PosY": 130.0,
-          "Min": 0.0,
-          "Max": 1.0
+          "PosY": 80.0,
+          "Value": 0.0
         },
         {
-          "Type": "SliderF",
+          "Type": "InputF",
           "ID": "Quad",
           "PosX": 10.0,
-          "PosY": 150.0,
-          "Min": 0.0,
-          "Max": 1.0
+          "PosY": 110.0,
+          "Value": 0.0
+        },
+        {
+          "Type": "Input3F",
+          "ID": "Sun Position",
+          "PosX": 10.0,
+          "PosY": 140.0,
+          "Value1": 0.0,
+          "Value2": 0.0,
+          "Value3": 0.0
+        },
+        {
+          "Type": "Input3F",
+          "ID": "Emition Color",
+          "PosX": 10.0,
+          "PosY": 170.0,
+          "Value1": 1.0,
+          "Value2": 1.0,
+          "Value3": 1.0
         }
 
       ]

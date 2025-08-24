@@ -1,6 +1,7 @@
 #pragma once
 #include "../Core.h"
 #include "../../3rdParty/imgui/imgui.h"
+#include "../../3rdParty/glm/vec3.hpp"
 #include "../LogSys/Log.h"
 #include <string>
 

@@ -38,14 +38,19 @@ namespace Simulator
 		}
 	}
 
-	void Renderer::Draw(Camera& pCamera)
+	Entity* Renderer::operator[](uint32 pKey)
+	{
+		return m_RenderQueue[pKey];
+	}
+
+	void Renderer::Draw()
 	{
 		glClearColor(m_ClearColor.x, m_ClearColor.y, m_ClearColor.z,  1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		for (auto &i : m_RenderQueue)
 		{
-			i->Render(pCamera);
+			i->Render();
 		}
 
 	}

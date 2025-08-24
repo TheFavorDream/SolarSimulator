@@ -10,13 +10,15 @@ namespace Simulator
 	{
 	public:
 
-		Jupiter(std::string pModelPath, std::string pShaderPath);
+		Jupiter(std::string pModelPath, uint32 pShader);
 		~Jupiter();
 
-		void Render(Camera& pCamera) override;
+		void Render() override;
+
 
 	private:
-
+		Texture2D m_Texture;
+		float Radius = 30.0f;
 	};
 };
 

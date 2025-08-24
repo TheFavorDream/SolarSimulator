@@ -11,12 +11,13 @@ namespace Simulator
 	{
 	public:
 
-		Mercury(std::string pModelPath, std::string pShaderPath);
+		Mercury(std::string pModelPath, uint32 pShader);
 		~Mercury();
 
-		void Render(Camera& pCamera) override;
+		void Render() override;
 
 	private:
-
+		Texture2D m_Texture;
+		float Radius = 20.0f;
 	};
 };

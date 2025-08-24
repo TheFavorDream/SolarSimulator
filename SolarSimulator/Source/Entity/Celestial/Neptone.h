@@ -10,13 +10,14 @@ namespace Simulator
 	{
 	public:
 
-		Neptone(std::string pModelPath, std::string pShaderPath);
+		Neptone(std::string pModelPath, uint32 pShader);
 		~Neptone();
 
-		void Render(Camera& pCamera) override;
+		void Render() override;
 
 	private:
-
+		Texture2D m_Texture;
+		float Radius = 140.0f;
 	};
 };
 

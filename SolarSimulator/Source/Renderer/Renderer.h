@@ -13,6 +13,17 @@
 
 #include "../Camera/Camera.h"
 
+
+#define SUN     0
+#define MERCURY 1
+#define VENUS   2
+#define EARTH   3
+#define MARS    4
+#define JUPITER 5
+#define SATURN  6
+#define URANUS  7
+#define NEPTONE 8
+
 namespace Simulator
 {
 	class Renderer
@@ -22,13 +33,14 @@ namespace Simulator
 		Renderer();
 		~Renderer();
 
-		void Draw(Camera& pCamera);
+		void Draw();
 
 		void NewEntity(Entity* pEntity);
 
 		void SetClearColor(glm::vec3& pClearColor);
 		void SetClearColor(float pR, float pG, float pB);
 
+		Entity* operator[](uint32 pKey);
 
 	public:
 		static Renderer* Get();

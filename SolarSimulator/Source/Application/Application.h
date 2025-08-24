@@ -8,10 +8,11 @@
 #include "LogSys/Log.h"
 #include "Renderer/Shader.h"
 #include "Renderer/Texture.h"
-#include "../Mesh/Model.h"
 #include "Camera/Camera.h"
 #include "Entity/SkyBox.h"
 #include "Timer/Timer.h"
+#include  "Renderer/ShaderManager.h"
+
 
 #include "Entity/Celestial/Sun.h"
 #include "Entity/Celestial/Mercury.h"

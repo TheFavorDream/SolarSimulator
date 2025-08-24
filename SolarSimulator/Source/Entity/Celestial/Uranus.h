@@ -10,13 +10,14 @@ namespace Simulator
 	{
 	public:
 
-		Uranus(std::string pModelPath, std::string pShaderPath);
+		Uranus(std::string pModelPath, uint32 pShader);
 		~Uranus();
 
-		void Render(Camera& pCamera) override;
+		void Render() override;
 
 	private:
-
+		Texture2D m_Texture;
+		float Radius = 100.0f;
 	};
 };
 

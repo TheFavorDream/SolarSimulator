@@ -19,6 +19,7 @@ namespace Simulator
 		Texture2D m_EarthTexture;
 		Texture2D m_EarthClouds;
 		Texture2D m_EarthSpecMap;
+		Texture2D m_EarthNight;
 
 		float Radius = 30.0f;
 	};

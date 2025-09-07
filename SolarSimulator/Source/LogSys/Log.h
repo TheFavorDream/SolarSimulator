@@ -5,6 +5,12 @@
 #include <string>
 #include <cassert>
 #include <stdarg.h>
+#include "../3rdParty/glew/include/GL/glew.h"
+
+//For OpenGL Error Handling
+
+#define GL_CALL(x) x;;
+
 
 namespace Simulator
 {
@@ -30,6 +36,9 @@ namespace Simulator
 		void SetError(const char* pMessage, ...);
 
 		void SetTextColor(CONSOLE_COLOR pColor);
+
+		void ClearOpenGLErrors();
+		void ProcessOpenGLErrors(const char* pFunctionName, int pLine);
 
 	private:
 

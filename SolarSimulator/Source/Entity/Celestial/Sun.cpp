@@ -2,16 +2,27 @@
 
 namespace Simulator
 {
+	Entity* Sun::Construct(std::string pModelPath, uint32 pShader)
+	{
+		return (Entity*)new Sun(pModelPath, pShader);
+	}
+
+
 	Sun::Sun(std::string pModelPath, uint32 pShader)
 	{
-		m_Shader = pShader;
-		m_Mesh.LoadMesh(pModelPath);
-		m_SunTexture.CreateTexture(std::string(ASSETS_PARENT_DIR) + "Sun.jpg", GL_LINEAR, GL_LINEAR, false);
+		Setup(pModelPath, pShader);
 	}
 
 	Sun::~Sun()
 	{
 
+	}
+
+	void Sun::Setup(std::string pModelPath, uint32 pShader)
+	{
+		m_Shader = pShader;
+		m_Mesh.LoadMesh(std::string(PATH) + "Models/Sphere.glb");
+		m_SunTexture.CreateTexture(std::string(ASSETS_PARENT_DIR) + "Sun.jpg", GL_LINEAR, GL_LINEAR, false);
 	}
 
 	void Sun::Render()

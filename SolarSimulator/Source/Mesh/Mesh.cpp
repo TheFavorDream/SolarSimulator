@@ -51,7 +51,7 @@ namespace Simulator
 		return 0;
 	}
 
-	void Mesh::Render(const Shader& pShader)
+	void Mesh::Render(const Shader& pShader) noexcept
 	{
 		pShader.Bind();
 
@@ -269,10 +269,13 @@ namespace Simulator
 		return Vecs;
 	}
 
+
 	void Mesh::SetUp(const std::vector<Vertex>& pVertices, const std::vector<uint16>& pIndices)
 	{
 		m_Vertices = pVertices;
 		m_Indices  = pIndices;
+
+
 
 		m_VAO.CreateVertexArray();
 		m_VAO.Bind();

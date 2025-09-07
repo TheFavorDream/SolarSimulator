@@ -1,5 +1,6 @@
 #pragma once
 #include "../Core.h"
+#include "../LogSys/Log.h"
 #include "../../3rdParty/glew/include/GL/glew.h"
 #include "VertexBuffer.h"
 #include "ElementBuffer.h"

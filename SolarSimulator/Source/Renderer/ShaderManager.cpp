@@ -10,7 +10,6 @@ namespace Simulator
 	ShaderManager* ShaderManager::s_Self = NULL;
 
 
-
 	ShaderManager* ShaderManager::Self()
 	{
 		if (s_Self == NULL)
@@ -40,7 +39,7 @@ namespace Simulator
 
 //==========================Shader Operations===========================================
 
-	uint32 ShaderManager::CreateNewShader(std::string pShaderPath)
+	uint32 ShaderManager::CreateNewShaderFromPath(std::string pShaderPath)
 	{
 		uint32 Key = m_Shaders.size();
 		m_Shaders[Key].CreateShader(pShaderPath);

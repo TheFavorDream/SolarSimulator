@@ -32,9 +32,11 @@ namespace Simulator
 		void NewElement(Element* pElement);
 
 		Element* GetElement(std::string pID);
+		Element* operator[](std::string pID);
+		Element* operator[](uint32 pIndex);
 
 		inline bool ShouldRender() { return m_Render; }
-
+		inline uint32 GetElementCount() { return m_Elements.size(); }
 
 	private:
 		ImGuiWindowFlags GetWindowFlags();
@@ -42,7 +44,7 @@ namespace Simulator
 
 
 		std::unordered_map<std::string, Element*> m_Elements;
-
+		std::vector<std::string> m_IDs;
 		ImVec2 m_Position;
 		ImVec2 m_Size;
 		std::string m_Title;

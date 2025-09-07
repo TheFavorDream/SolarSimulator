@@ -1,5 +1,5 @@
 #include "VertexArray.h"
-
+#include "../LogSys/Log.h"
 
 namespace Simulator
 {
@@ -29,23 +29,24 @@ namespace Simulator
 
 	void VertexArray::CreateVertexArray()
 	{
-		glGenVertexArrays(1, &m_ArrayID);
+		GL_CALL(glGenVertexArrays(1, &m_ArrayID));
+		Log::GetSelf()->SetInfo("Vertex Array Generated. ID: %i", m_ArrayID);
 	}
 
 	void VertexArray::DeleteVertexArray()
 	{
 		Unbind();
-		glDeleteVertexArrays(1, &m_ArrayID);
+		GL_CALL(glDeleteVertexArrays(1, &m_ArrayID));
 	}
 
 	void VertexArray::Bind() const
 	{
-		glBindVertexArray(m_ArrayID);
+		GL_CALL(glBindVertexArray(m_ArrayID));
 	}
 
 	void VertexArray::Unbind() const
 	{
-		glBindVertexArray(0);
+		GL_CALL(glBindVertexArray(0));
 	}
 
 	void VertexArray::AddLayout(GLenum pType, uint32 pCount, GLboolean pNormalized)

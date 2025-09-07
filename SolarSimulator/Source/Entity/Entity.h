@@ -7,6 +7,7 @@
 #include "../Core.h"
 #include "../Mesh/Mesh.h"
 #include "../Renderer/ShaderManager.h"
+#include "../Physics/Properties.h"
 
 namespace Simulator
 {
@@ -22,8 +23,12 @@ namespace Simulator
 
 		inline glm::vec3& GetPosition() { return m_Position; }
 
+		inline Properties& GetProperties() { return m_Properties; }
+
 	protected:
 		glm::vec3 m_Position;
+		
+		Properties m_Properties;
 		Mesh m_Mesh;
 		uint32 m_Shader;
 	};

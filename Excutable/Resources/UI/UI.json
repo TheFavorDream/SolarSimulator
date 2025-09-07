@@ -12,7 +12,7 @@
     {
       "Title": "Config",
       "SizeX": 200.0,
-      "SizeY": 130.0,
+      "SizeY": 400.0,
       "PosX": 100.0,
       "PosY": 100.0,
       "LockedPos": false,
@@ -30,7 +30,8 @@
           "Type": "Checkbox",
           "ID": "Show Model Menu",
           "PosX": 10.0,
-          "PosY": 40.0
+          "PosY": 40.0,
+          "State": false
         },
         {
           "Type": "Checkbox",
@@ -40,20 +41,54 @@
           "State": false
         },
         {
-          "Type": "Checkbox",
-          "ID": "Shaders Menu",
+          "Type": "Text",
+          "ID": "CameraInfo:",
+          "Content": "Camera Position:",
           "PosX": 10.0,
-          "PosY": 80.0,
-          "State": false
+          "PosY": 100.0
         },
         {
-          "Type": "Checkbox",
-          "ID": "Camera Info",
+          "Type": "Text",
+          "ID": "CameraPosX",
+          "Content": "",
           "PosX": 10.0,
-          "PosY": 100.0,
-          "State": false
+          "PosY": 120.0
+        },
+        {
+          "Type": "Text",
+          "ID": "CameraPosY",
+          "Content": "",
+          "PosX": 10.0,
+          "PosY": 140.0
+        },
+        {
+          "Type": "Text",
+          "ID": "CameraPosZ",
+          "Content": "",
+          "PosX": 10.0,
+          "PosY": 160.0
+        },
+        {
+          "Type": "Text",
+          "ID": "CameraYaw",
+          "Content": "",
+          "PosX": 10.0,
+          "PosY": 180.0
+        },
+        {
+          "Type": "Text",
+          "ID": "CameraPitch",
+          "Content": "",
+          "PosX": 10.0,
+          "PosY": 200.0
+        },
+        {
+          "Type": "Text",
+          "ID": "DeltaTime",
+          "Content": "",
+          "PosX": 10.0,
+          "PosY": 220.0
         }
-
 
 
       ]
@@ -116,65 +151,8 @@
         }
 
       ]
-    },
-    {
-      "Title": "Shaders",
-      "SizeX": 200.0,
-      "SizeY": 20.0,
-      "PosX": 100.0,
-      "PosY": 200.0,
-      "LockedPos": true
-    },
-
-    {
-      "Title": "Camera",
-      "SizeX": 0.0,
-      "SizeY": 0.0,
-      "PosX": 300.0,
-      "PosY": 400.0,
-      "LockedPos": false,
-
-      "Elements": [
-        {
-          "Type": "Text",
-          "ID": "CameraInfo",
-          "PosX": 10.0,
-          "PosY": 30.0,
-          "Content": "Camera:"
-        },
-        {
-          "Type": "Text",
-          "ID": "CameraPosX",
-          "PosX": 10.0,
-          "PosY": 50.0
-        },
-        {
-          "Type": "Text",
-          "ID": "CameraPosY",
-          "PosX": 10.0,
-          "PosY": 70.0
-        },
-        {
-          "Type": "Text",
-          "ID": "CameraPosZ",
-          "PosX": 10.0,
-          "PosY": 90.0
-        },
-        {
-          "Type": "Text",
-          "ID": "CameraYaw",
-          "PosX": 10.0,
-          "PosY": 120.0
-        },
-        {
-          "Type": "Text",
-          "ID": "CameraPitch",
-          "PosX": 10.0,
-          "PosY": 140.0
-        }
-
-      ]
     }
+    
   ]
 
 }

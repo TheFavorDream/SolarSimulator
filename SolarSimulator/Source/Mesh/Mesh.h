@@ -6,9 +6,11 @@
 #include "../Camera/Camera.h"
 #include "../Renderer/Texture.h"
 
+
 #include <vector>
 #include <fstream>
 #include <unordered_map>
+#include <mutex>
 #include "../../3rdParty/JsonParser/Json.h"
 
 
@@ -29,7 +31,7 @@ namespace Simulator
 		int LoadGLB(const std::string& pFilePath);
 		int Free();
 
-		void Render(const Shader& pShader);
+		void Render(const Shader& pShader) noexcept;
 
 		inline glm::mat4& GetModelMatrix() { return m_Model; }
 
@@ -56,7 +58,7 @@ namespace Simulator
 		std::vector<uint16> m_Indices;
 
 
+		std::mutex m_Mutex;
 		std::unordered_map<uint32, std::string> m_Buffers;
-
 	};
 };

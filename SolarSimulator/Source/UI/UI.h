@@ -52,7 +52,7 @@ namespace Simulator
 		int SetWindowRenderState(std::string pKey, bool pShouldRender);
 		UIWindow& GetWindow(std::string pKey);
 
-		void CreateButton(std::string pKey, std::string pTitle, ImVec2 pPosition, ImVec2 pSize=ImVec2(60.0f, 20.0f));
+		void CreateButton(std::string pKey, std::string pTitle, ImVec2 pPosition, ImVec2 pSize=ImVec2(0.0f, 0.0f));
 		Button* GetButton(std::string pWindowKey, std::string pID);
 
 		void CreateSliderF(std::string pKey, std::string pTitle, float pMax, float pMin, ImVec2 pPosition);

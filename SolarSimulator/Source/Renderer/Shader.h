@@ -44,7 +44,8 @@ namespace Simulator
 
 		void SetUniformMat4(const char* pName, glm::mat4& pValue) const;
 
-		inline const std::string& GetShaderPath() { return m_ShaderPath; }
+		inline const std::string GetShaderName() const { return m_ShaderPath.substr(m_ShaderPath.find_last_of('/') + 1); }
+		inline const std::string& GetShaderPath() const { return m_ShaderPath; }
 
 	private:
 		int32 GetUniformLocation(const char* pName) const;

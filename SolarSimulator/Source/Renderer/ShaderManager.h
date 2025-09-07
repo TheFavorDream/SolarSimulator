@@ -20,7 +20,7 @@ namespace Simulator
 
 
 		//Creates a new shader and return a access key:
-		uint32 CreateNewShader(std::string pShaderPath);
+		uint32 CreateNewShaderFromPath(std::string pShaderPath);
 		uint32 CreateNewShader(const std::string& pVertexShader, const std::string& pFragmentShader);
 
 		//Deletes an existing shader by its key:
@@ -52,6 +52,8 @@ namespace Simulator
 	
 		void BroadCastUniformMat4(const char* pUniformName, glm::mat4& pValue);
 
+		inline uint32 GetShaderNums() { return m_Shaders.size(); }
+		inline const Shader& operator[](uint32 pKey) { return m_Shaders[pKey]; }
 
 	private:
 		bool DoesShaderExist(uint32 pKey);

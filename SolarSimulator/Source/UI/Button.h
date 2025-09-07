@@ -21,9 +21,12 @@ namespace Simulator
 			m_State = ImGui::Button(m_ID.c_str(), m_Size);
 		}
 
-		inline bool GetState() const { return m_State; }
+		 bool GetState() const 
+		 {
+			 return m_State;
+		 }
 
 	private:
-		bool m_State;
+		bool m_State=false;
 	};
 };

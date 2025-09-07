@@ -1,6 +1,9 @@
 #pragma once
 #include <iostream>
 #include <thread>
+#include <vector>
+#include <mutex>
+#include <future>
 
 #include "Core.h"
 #include "Renderer/Renderer.h"
@@ -12,7 +15,7 @@
 #include "Entity/SkyBox.h"
 #include "Timer/Timer.h"
 #include  "Renderer/ShaderManager.h"
-
+#include "Physics/Physics.h"
 
 #include "Entity/Celestial/Sun.h"
 #include "Entity/Celestial/Mercury.h"
@@ -27,6 +30,7 @@
 #include "../3rdParty/glm/mat4x4.hpp"
 #include "../3rdParty/glm/glm.hpp"
 #include "../3rdParty/glm/gtc/type_ptr.hpp"
+
 
 
 #include "UI/UI.h"

@@ -18,10 +18,13 @@ namespace Simulator
 	Renderer::Renderer()
 	{
 		Log::GetSelf()->SetInfo("Renderer Constructed");
+
 		if (glewInit() > 0)
 		{
 			Log::GetSelf()->SetError("Unable to Init Glew");
 		}
+
+		
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_MULTISAMPLE);
 		glEnable(GL_BLEND);

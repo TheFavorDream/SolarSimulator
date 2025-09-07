@@ -13,6 +13,7 @@ namespace Simulator
 
 		Renderer::Get(); // To Allocate memory
 		ShaderManager::Self();
+		Physics::Get();
 
 		Setup();
 	}
@@ -20,6 +21,7 @@ namespace Simulator
 	{
 		delete Renderer::Get();
 		delete ShaderManager::Self();
+		delete Physics::Get();
 		delete m_UI;
 		delete m_Window;
 	}
@@ -56,16 +58,32 @@ namespace Simulator
 		m_Camera.SetPitch(-41.0f);
 		m_Camera.SetYaw(-274.0f);
 
+		Timer timer0;
 		m_UI->LoadUI(std::string(PATH) + "UI/UI.json");
+		Log::GetSelf()->SetInfo("UI Loading Took: %f ms", timer0.GetTime());
 
 		//Shader Loading:
 
-		uint32 S_Sun =   ShaderManager::Self()->CreateNewShader(std::string(PATH) + "Shaders/Sun.glsl");
-		uint32 S_Earth = ShaderManager::Self()->CreateNewShader(std::string(PATH) + "Shaders/Earth.glsl");
-		uint32 S_Basic = ShaderManager::Self()->CreateNewShader(std::string(PATH) + "Shaders/basic.glsl");
+		Timer timer1;
 
+		uint32 S_Sun = ShaderManager::Self()->CreateNewShaderFromPath(std::string(PATH) + "Shaders/Sun.glsl");
+		uint32 S_Earth = ShaderManager::Self()->CreateNewShaderFromPath(std::string(PATH) + "Shaders/Earth.glsl");
+		uint32 S_Basic = ShaderManager::Self()->CreateNewShaderFromPath(std::string(PATH) + "Shaders/basic.glsl");
+		
+		Log::GetSelf()->SetInfo("Shader Loading Took: %f ms", timer1.GetTime());
 
-		Renderer::Get()->NewEntity(new Sun(std::string(PATH) + "Models/Sphere.glb", S_Sun));
+		//Add Shaders to UI:
+
+		for (int i = 0 ; i < ShaderManager::Self()->GetShaderNums() ; i++)
+		{
+			m_UI->CreateButton("Shaders", "Reload " + (*ShaderManager::Self())[i].GetShaderName(), ImVec2(10.0f, 30.0f + (i*30.0f)));
+		}
+		
+
+		Timer timer2;
+		
+		
+		Renderer::Get()->NewEntity(Sun::Construct(std::string(PATH) + "Models/Sphere.glb", S_Sun));
 		Renderer::Get()->NewEntity(new Mercury(std::string(PATH) + "Models/Sphere.glb", S_Basic));
 		Renderer::Get()->NewEntity(new Venus(std::string(PATH) + "Models/Sphere.glb", S_Basic));
 		Renderer::Get()->NewEntity(new Earth(std::string(PATH) + "Models/Sphere.glb", S_Earth));
@@ -74,7 +92,9 @@ namespace Simulator
 		Renderer::Get()->NewEntity(new Saturn(std::string(PATH) + "Models/Sphere.glb", std::string(PATH) + "Models/Ring.glb", S_Basic));
 		Renderer::Get()->NewEntity(new Uranus(std::string(PATH) + "Models/Sphere.glb", S_Basic));
 		Renderer::Get()->NewEntity(new Neptone(std::string(PATH) + "Models/Sphere.glb",S_Basic));
+	
 
+		Log::GetSelf()->SetInfo("Model Loading Took: %f ms", timer2.GetTime());
 		
 		std::vector<std::string> Paths = { "right.png", "left.png", "bottom.png", "top.png", "front.png", "back.png" };
 		m_Skybox.CreateSkyBox(std::string(PATH) + "Assets/Skybox/", Paths);
@@ -84,7 +104,9 @@ namespace Simulator
 
 	void Application::Input()
 	{
-		m_UI->SetWindowRenderState("Setter",m_UI->GetCheckbox("Config", "Show Setter Menu")->GetState());
+		m_UI->SetWindowRenderState("Setter", m_UI->GetCheckbox("Config", "Show Setter Menu")->GetState());
+		m_UI->SetWindowRenderState("Shaders", m_UI->GetCheckbox("Config", "Shaders Menu")->GetState());
+		m_UI->SetWindowRenderState("Camera", m_UI->GetCheckbox("Config", "Camera Info")->GetState());
 
 
 		m_Camera.HandleCameraMovement();
@@ -113,20 +135,35 @@ namespace Simulator
 		ShaderManager::Self()->BroadCastUniform1F("light.Linear", m_UI->GetInputF("Setter", "Linear")->GetValue());
 		ShaderManager::Self()->BroadCastUniform1F("light.Quadratic", m_UI->GetInputF("Setter", "Quad")->GetValue());
 
-
+		//Physics::Get()->Update(Renderer::Get()->GetEntities());
 	
 	}
 
 	void Application::UpdateUI()
 	{
-		m_UI->GetText("Config", "CameraPosX")->GetText() = "Camera X:" + std::to_string(m_Camera.GetPosition().x);
-		m_UI->GetText("Config", "CameraPosY")->GetText() = "Camera Y:" + std::to_string(m_Camera.GetPosition().y);
-		m_UI->GetText("Config", "CameraPosZ")->GetText() = "Camera Z:" + std::to_string(m_Camera.GetPosition().z);
 
-		m_UI->GetText("Config", "CameraYaw")->GetText() = "Camera Yaw:" + std::to_string(m_Camera.GetYaw());
-		m_UI->GetText("Config", "CameraPitch")->GetText() = "Camera Pitch:" + std::to_string(m_Camera.GetPitch());
+		if (m_UI->GetWindow("Shaders").ShouldRender())
+		{
+			for (int i = 0; i < ShaderManager::Self()->GetShaderNums() - 1; i++)
+			{
+				if (m_UI->GetButton("Shaders", "Reload " + (*ShaderManager::Self())[i].GetShaderName())->GetState())
+				{
+					Log::GetSelf()->SetInfo("Shader Reloaded, %s", (*ShaderManager::Self())[i].GetShaderName());
+					ShaderManager::Self()->GetShader(i).DeleteShader();
+					ShaderManager::Self()->GetShader(i).CreateShader(ShaderManager::Self()->GetShader(i).GetShaderPath());
 
-		m_UI->GetText("Config", "DeltaTime")->GetText() = "DeltaTime(ms)" + std::to_string(Timer::s_DeltaTime);
+				}
+			}
+		}
+
+
+		m_UI->GetText("Camera", "CameraPosX")->GetText() = "Camera X:" + std::to_string(m_Camera.GetPosition().x);
+		m_UI->GetText("Camera", "CameraPosY")->GetText() = "Camera Y:" + std::to_string(m_Camera.GetPosition().y);
+		m_UI->GetText("Camera", "CameraPosZ")->GetText() = "Camera Z:" + std::to_string(m_Camera.GetPosition().z);
+		m_UI->GetText("Camera", "CameraYaw")->GetText() = "Camera Yaw:" + std::to_string(m_Camera.GetYaw());
+		m_UI->GetText("Camera", "CameraPitch")->GetText() = "Camera Pitch:" + std::to_string(m_Camera.GetPitch());
+		
+
 
 		m_LockedFPS = m_UI->GetCheckbox("Config", "Lock FPS to 60")->GetState();
 		

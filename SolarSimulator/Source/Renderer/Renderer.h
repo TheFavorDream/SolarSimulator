@@ -10,7 +10,7 @@
 #include "GL/glew.h"
 #include "../3rdParty/glm/glm.hpp"
 #include "../Entity/Entity.h"
-
+#include "../Timer/Timer.h"
 #include "../Camera/Camera.h"
 
 
@@ -41,6 +41,8 @@ namespace Simulator
 		void SetClearColor(float pR, float pG, float pB);
 
 		Entity* operator[](uint32 pKey);
+
+		inline const std::vector<Entity*> GetEntities() { return m_RenderQueue; }
 
 	public:
 		static Renderer* Get();

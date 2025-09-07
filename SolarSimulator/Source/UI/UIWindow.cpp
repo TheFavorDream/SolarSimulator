@@ -80,6 +80,18 @@ namespace Simulator
 
 	void UIWindow::NewElement(Element* pElement)
 	{
+		//resize the window if needed
+		if (pElement->GetPosition().y + pElement->GetSize().y >= m_Size.y)
+		{
+			m_Size.y = pElement->GetPosition().y + pElement->GetSize().y + 20.0f;
+		}
+
+		if (pElement->GetPosition().x + pElement->GetSize().x >= m_Size.x)
+		{
+			m_Size.x = pElement->GetPosition().x + pElement->GetSize().x + 20.0f;
+		}
+
+		m_IDs.emplace_back(pElement->GetID());
 		m_Elements[pElement->GetID()] = pElement;
 	}
 
@@ -90,6 +102,16 @@ namespace Simulator
 			return NULL;
 		}
 		return m_Elements[pID];
+	}
+
+	Element * UIWindow::operator[](std::string pID)
+	{
+		return m_Elements[pID];
+	}
+
+	Element * UIWindow::operator[](uint32 pIndex)
+	{
+		return (m_Elements[m_IDs[pIndex]]);
 	}
 
 	ImGuiWindowFlags UIWindow::GetWindowFlags()

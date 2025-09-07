@@ -29,12 +29,7 @@ in vec3 aNormals;
 in vec2 aTexCoords;
 in vec3 aFragPos;
 
-uniform vec3 ViewPos;
-
 uniform sampler2D Texture;	
-uniform sampler2D TextureCloud;
-uniform sampler2D TextureSpec;
-uniform sampler2D TextureNight;
 
 struct Light
 {
@@ -57,10 +52,6 @@ out vec4 FragColor;
 void main ()
 {
 
-	float Dis = length(light.LightPosition - aFragPos);
-	float att = 1.0 / (light.Constant + light.Linear*Dis + light.Quadratic*(Dis*Dis));
-
-
 	vec3 Ambient = light.Ambient * light.LightColor;
 	
 	vec3 LightDir = normalize(light.LightPosition - aFragPos);
@@ -68,19 +59,9 @@ void main ()
 	vec3 Diffuse = Diff * light.LightColor;
 
 
-	vec3 ViewDir = normalize(ViewPos - aFragPos);
-	vec3 ReflectDir = reflect(-LightDir, aNormals);
-	float Spec = pow(max(dot(ViewDir, ReflectDir), 0.0f), 32);
+	float Dis = length(light.LightPosition - aFragPos);
+	float att = 1.0 / (light.Constant + light.Linear*Dis + light.Quadratic*(Dis*Dis));
 
-	vec3 Specular = vec3(texture(TextureSpec, aTexCoords)) * Spec * light.LightColor;
+	FragColor = vec4((Ambient+Diffuse)*att, 1.0f) * texture(Texture, aTexCoords);
 
-	if (dot(normalize(aNormals), LightDir) < 0)
-	{
-		FragColor =  mix(texture(TextureNight, aTexCoords), (texture(Texture, aTexCoords)*vec4((Ambient+Specular)*att, 1.0f)), 0.5f) ;
-	}
-	else
-	{
-		FragColor = vec4((Ambient+Diffuse+Specular)*att, 1.0f) * mix(texture(Texture, aTexCoords), texture(TextureCloud, aTexCoords), 0.3);
-		
-	}
 }

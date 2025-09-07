@@ -22,6 +22,7 @@ namespace Simulator
 	//This function does the overal creation of Shader Program
 	int Shader::CreateShader(std::string pShaderPath)
 	{
+		m_ShaderPath = pShaderPath;
 		std::string Content = ReadShaderFile(pShaderPath);
 		if (Content == "")
 		{

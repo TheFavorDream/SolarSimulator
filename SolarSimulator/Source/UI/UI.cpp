@@ -124,24 +124,24 @@ namespace Simulator
 					}
 					if (Type == "Text")
 					{
-						CreateText(i["Title"], j["ID"], j["Content"], ImVec2(j["PosX"], j["PosY"]));
+						CreateText(i["Title"], j["ID"], j.value("Content", ""), ImVec2(j["PosX"], j["PosY"]));
 					}
 					if (Type == "SliderI")
 					{
-						CreateSliderI(i["Title"], j["ID"], j["Min"], j["Max"], ImVec2(j["PosX"], j["PosY"]));
+						CreateSliderI(i["Title"], j["ID"], j.value("Min", 0.0f), j.value("Max", 1.0f), ImVec2(j["PosX"], j["PosY"]));
 					}
 					if (Type == "SliderF")
 					{
-						CreateSliderF(i["Title"], j["ID"], j["Min"], j["Max"], ImVec2(j["PosX"], j["PosY"]));
+						CreateSliderF(i["Title"], j["ID"], j.value("Min", 0), j.value("Max", 10), ImVec2(j["PosX"], j["PosY"]));
 
 					}
 					if (Type == "Checkbox")
 					{
-						CreateCheckbox(i["Title"], j["ID"], j["State"], ImVec2(j["PosX"], j["PosY"]));
+						CreateCheckbox(i["Title"], j["ID"], j.value("State", false), ImVec2(j["PosX"], j["PosY"]));
 					}
 					if (Type == "InputF")
 					{
-						CreateInputF(i["Title"], j["ID"], j["Value"], ImVec2(j["PosX"], j["PosY"]));
+						CreateInputF(i["Title"], j["ID"], j.value("Value", 0.0f), ImVec2(j["PosX"], j["PosY"]));
 					}
 					if (Type == "Input3F")
 					{
@@ -223,6 +223,12 @@ namespace Simulator
 //==============================Button=============================
 	void UI::CreateButton(std::string pKey, std::string pTitle, ImVec2 pPosition, ImVec2 pSize)
 	{
+		if (pSize.x == 0)
+		{
+			pSize.x = pTitle.length()*8.0f + 20.0f;
+			pSize.y = 20.0f;
+		}
+
 		m_Windows[pKey].NewElement(new Button(pTitle, pSize, pPosition));
 	}
 	Button* UI::GetButton(std::string pWindowKey, std::string pID)

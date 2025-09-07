@@ -103,6 +103,22 @@ namespace Simulator
 
 	}
 
+	void Log::ClearOpenGLErrors()
+	{
+		while (glGetError() != GL_NO_ERROR)
+		{
+
+		}
+	}
+
+	void Log::ProcessOpenGLErrors(const char * pFunctionName, int pLine)
+	{
+		while (GLenum error = glGetError())
+		{
+			SetError("[OpenGL] Function:%s, Line:%i, Code: %i", std::string(pFunctionName), pLine, error);
+		}
+	}
+
 	void Log::WriteToFile(std::string pFormatedString)
 	{
 		if (!m_IsCaching)

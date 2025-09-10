@@ -65,11 +65,12 @@ namespace Simulator
 		//Shader Loading:
 
 		Timer timer1;
-
-		uint32 S_Sun = ShaderManager::Self()->CreateNewShaderFromPath(std::string(PATH) + "Shaders/Sun.glsl");
-		uint32 S_Earth = ShaderManager::Self()->CreateNewShaderFromPath(std::string(PATH) + "Shaders/Earth.glsl");
-		uint32 S_Basic = ShaderManager::Self()->CreateNewShaderFromPath(std::string(PATH) + "Shaders/basic.glsl");
+		std::string Path = std::string(PATH);
 		
+		uint32 S_Sun = ShaderManager::Self()->CreateNewShaderFromPath(Path + "Shaders/Sun.glsl");
+		uint32 S_Earth = ShaderManager::Self()->CreateNewShaderFromPath(Path + "Shaders/Earth.glsl");
+		uint32 S_Basic = ShaderManager::Self()->CreateNewShaderFromPath(Path + "Shaders/basic.glsl");
+		uint32 S_Grid = ShaderManager::Self()->CreateNewShaderFromPath(Path + "Shaders/Grid.glsl");
 		Log::GetSelf()->SetInfo("Shader Loading Took: %f ms", timer1.GetTime());
 
 		//Add Shaders to UI:
@@ -78,11 +79,10 @@ namespace Simulator
 		{
 			m_UI->CreateButton("Shaders", "Reload " + (*ShaderManager::Self())[i].GetShaderName(), ImVec2(10.0f, 30.0f + (i*30.0f)));
 		}
-		
+
 
 		Timer timer2;
-		
-		
+		Renderer::Get()->NewEntity(new Grid(S_Grid, 50, 50, glm::vec3(-200, 0.0f, -200.0f)));
 		Renderer::Get()->NewEntity(Sun::Construct(std::string(PATH) + "Models/Sphere.glb", S_Sun));
 		Renderer::Get()->NewEntity(new Mercury(std::string(PATH) + "Models/Sphere.glb", S_Basic));
 		Renderer::Get()->NewEntity(new Venus(std::string(PATH) + "Models/Sphere.glb", S_Basic));
@@ -92,8 +92,6 @@ namespace Simulator
 		Renderer::Get()->NewEntity(new Saturn(std::string(PATH) + "Models/Sphere.glb", std::string(PATH) + "Models/Ring.glb", S_Basic));
 		Renderer::Get()->NewEntity(new Uranus(std::string(PATH) + "Models/Sphere.glb", S_Basic));
 		Renderer::Get()->NewEntity(new Neptone(std::string(PATH) + "Models/Sphere.glb",S_Basic));
-	
-
 		Log::GetSelf()->SetInfo("Model Loading Took: %f ms", timer2.GetTime());
 		
 		std::vector<std::string> Paths = { "right.png", "left.png", "bottom.png", "top.png", "front.png", "back.png" };
@@ -135,7 +133,7 @@ namespace Simulator
 		ShaderManager::Self()->BroadCastUniform1F("light.Linear", m_UI->GetInputF("Setter", "Linear")->GetValue());
 		ShaderManager::Self()->BroadCastUniform1F("light.Quadratic", m_UI->GetInputF("Setter", "Quad")->GetValue());
 
-		//Physics::Get()->Update(Renderer::Get()->GetEntities());
+		Physics::Get()->Update(Renderer::Get()->GetEntities());
 	
 	}
 
@@ -177,8 +175,8 @@ namespace Simulator
 		Renderer::Get()->Draw();
 
 		m_Skybox.RenderSkyBox();
-
 		m_UI->Render(); //Rendering UI Eelemts.
 		m_Window->WindowUpdate();
 	}
+
 };

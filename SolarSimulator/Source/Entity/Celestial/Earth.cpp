@@ -35,8 +35,8 @@ namespace Simulator
 
 
 		m_Mesh.GetModelMatrix() = glm::mat4(1.0f);
-		m_Mesh.GetModelMatrix() = glm::translate(m_Mesh.GetModelMatrix(), m_Properties.Position);
 		m_Mesh.GetModelMatrix() = glm::rotate(m_Mesh.GetModelMatrix(), (float)glfwGetTime()*1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		m_Mesh.GetModelMatrix() = glm::translate(m_Mesh.GetModelMatrix(), m_Properties.Position);
 
 
 

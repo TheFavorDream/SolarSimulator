@@ -51,7 +51,7 @@ namespace Simulator
 		return 0;
 	}
 
-	void Mesh::Render(const Shader& pShader) noexcept
+	void Mesh::Render(const Shader& pShader, GLenum PrimitiveType) noexcept
 	{
 		pShader.Bind();
 
@@ -60,9 +60,9 @@ namespace Simulator
 
 		m_VAO.Bind();
 		if (m_EBO.GetCount() != 0)
-			glDrawElements(GL_TRIANGLES, m_EBO.GetCount(), GL_UNSIGNED_SHORT, 0);
+			glDrawElements(PrimitiveType, m_EBO.GetCount(), GL_UNSIGNED_SHORT, 0);
 		else
-			glDrawArrays(GL_TRIANGLES, 0, m_VBO.GetVertexNumbers());
+			glDrawArrays(PrimitiveType, 0, m_VBO.GetVertexNumbers());
 		m_VAO.Unbind();
 	}
 

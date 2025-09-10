@@ -5,6 +5,7 @@
 #include "../Entity/Entity.h"
 #include "Properties.h"
 #include "../Timer/Timer.h"
+#include "../../3rdParty/glfw/include/GLFW/glfw3.h"
 
 #include <math.h>
 #include <vector>

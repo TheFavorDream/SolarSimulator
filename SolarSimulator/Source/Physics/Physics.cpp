@@ -35,13 +35,7 @@ namespace Simulator
 	{
 		for (auto &i : m_Objects)
 		{
-			i->GetProperties().Position += (i->GetProperties().Volacity * Timer::s_DeltaTime);
-			i->GetProperties().Volacity += glm::vec3(0.0f, 0.0f, -0.00001f);
-
-			if (i->GetProperties().Position.z <= -100.0f || i->GetProperties().Position.z >= 100.0f)
-			{
-				i->GetProperties().Volacity *= -1;
-			}
+			i->GetProperties().Position = glm::vec3(10.0f, 0.0f, 4.0f);
 
 		}
 	}

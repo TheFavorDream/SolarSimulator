@@ -13,6 +13,7 @@
 #include "Renderer/Texture.h"
 #include "Camera/Camera.h"
 #include "Entity/SkyBox.h"
+#include "Entity/Grid.h"
 #include "Timer/Timer.h"
 #include  "Renderer/ShaderManager.h"
 #include "Physics/Physics.h"
@@ -46,11 +47,14 @@ namespace Simulator
 
 		void Run();
 
+
+	private:
 		void Setup();
 		void Input();
 		void Update();
 		void UpdateUI();
 		void Render();
+
 
 	private:
 		WINDOW m_Window = NULL;
@@ -59,7 +63,6 @@ namespace Simulator
 
 		Camera m_Camera;
 		SkyBox m_Skybox;
-
 		bool m_LockedFPS = false;
 
 	};

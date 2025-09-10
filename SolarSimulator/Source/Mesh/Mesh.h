@@ -31,7 +31,7 @@ namespace Simulator
 		int LoadGLB(const std::string& pFilePath);
 		int Free();
 
-		void Render(const Shader& pShader) noexcept;
+		void Render(const Shader& pShader, GLenum PrimitiveType = GL_TRIANGLES) noexcept;
 
 		inline glm::mat4& GetModelMatrix() { return m_Model; }
 

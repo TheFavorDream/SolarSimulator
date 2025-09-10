@@ -113,6 +113,13 @@
           "Value1": 1.0,
           "Value2": 1.0,
           "Value3": 1.0
+        },
+        {
+          "Type": "Checkbox",
+          "ID": "Show Grid",
+          "PosX": 10.0,
+          "PosY": 200.0,
+          "State": true
         }
 
       ]

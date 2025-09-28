@@ -34,7 +34,7 @@ uniform vec3 ViewPos;
 uniform sampler2D Texture;	
 uniform sampler2D TextureCloud;
 uniform sampler2D TextureSpec;
-
+uniform sampler2D TextureNight;
 
 struct Light
 {
@@ -74,6 +74,13 @@ void main ()
 
 	vec3 Specular = vec3(texture(TextureSpec, aTexCoords)) * Spec * light.LightColor;
 
-	FragColor = vec4((Ambient+Diffuse+Specular)*att, 1.0f) * mix(texture(Texture, aTexCoords), texture(TextureCloud, aTexCoords), 0.3);
-
+	if (dot(normalize(aNormals), LightDir) < 0)
+	{
+		FragColor =  mix(texture(TextureNight, aTexCoords), (texture(Texture, aTexCoords)*vec4((Ambient+Specular)*att, 1.0f)), 0.5f) ;
+	}
+	else
+	{
+		FragColor = vec4((Ambient+Diffuse+Specular)*att, 1.0f) * mix(texture(Texture, aTexCoords), texture(TextureCloud, aTexCoords), 0.3);
+		
+	}
 }

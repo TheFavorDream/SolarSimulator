@@ -35,6 +35,8 @@ namespace Simulator
 		m_SunTexture.Bind(0);
 		ShaderManager::Self()->BindShader(m_Shader);
 		ShaderManager::Self()->GetShader(m_Shader).SetUniformInt1("Texture", 0);
+		ShaderManager::Self()->GetShader(m_Shader).SetUniformFloat1("Intensity", 2.0f);
+
 		m_Mesh.Render(ShaderManager::Self()->GetShader(m_Shader));
 	}
 };

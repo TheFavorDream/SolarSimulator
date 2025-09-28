@@ -11,6 +11,14 @@ namespace Simulator
 		m_Position = glm::vec3(0.0f, 0.0f, 40.0f);
 
 		m_Texture.CreateTexture(std::string(ASSETS_PARENT_DIR) + "Mars.jpg", GL_LINEAR, GL_LINEAR, false);
+
+
+		m_Properties.Position = glm::vec3(-20.0f, 0.0f, 0.0f);
+		m_Properties.Mass = ScientificNotation(2.0f, 1); // 20 kg
+
+
+		Physics::Get()->PushProperty(&m_Properties);
+
 	}
 
 	Mars::~Mars()
@@ -20,10 +28,16 @@ namespace Simulator
 	void Mars::Render()
 	{
 		float Time = (float)glfwGetTime()*0.06f;
+
+
+		m_Properties.Position -= (m_Properties.Volacity)*(1.0f / 60.0f);
+
+
 		m_Position = glm::vec3(sin(Time)*Radius, 0.0f, cos(Time)*Radius);
 		m_Mesh.GetModelMatrix() = glm::mat4(1.0f);
-		m_Mesh.GetModelMatrix() = glm::scale(m_Mesh.GetModelMatrix(), glm::vec3(1.5f));
-		m_Mesh.GetModelMatrix() = glm::translate(m_Mesh.GetModelMatrix(), m_Position);
+		//m_Mesh.GetModelMatrix() = glm::scale(m_Mesh.GetModelMatrix(), glm::vec3(1.5f));
+		m_Mesh.GetModelMatrix() = glm::translate(m_Mesh.GetModelMatrix(), m_Properties.Position);
+		m_Mesh.GetModelMatrix() = glm::rotate(m_Mesh.GetModelMatrix(), (float)glfwGetTime()*1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 
 		m_Texture.Bind();
 		m_Mesh.Render(ShaderManager::Self()->GetShader(m_Shader));

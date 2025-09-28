@@ -21,12 +21,9 @@ namespace Simulator
 		Physics();
 		~Physics();
 
-		void Update(const std::vector<Entity*>& m_Objects);
-
-		inline glm::vec3 GetAcceleration(ScientificNotation pForce, ScientificNotation pMass)
-		{
-
-		}
+		void Update();
+		void PushProperty(Properties* pProp);
+		float CalculateForce(const Properties* pObj1, const Properties* pObj2);
 
 	public:
 		static Physics* Get();
@@ -34,6 +31,7 @@ namespace Simulator
 
 
 	private:
+		std::vector<Properties*> m_Objects;
 		static Physics* s_Self;
 	};
 

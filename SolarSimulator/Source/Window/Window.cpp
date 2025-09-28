@@ -65,9 +65,26 @@ namespace Simulator
 	void Window::WindowUpdate()
 	{
 		glfwSwapBuffers(m_Window);
-		glfwGetWindowSize(m_Window, (int*)&m_Width, (int*)&m_Height);
-		glViewport(0, 0, m_Width, m_Height);
+		
+		int Width, Height;
+		glfwGetWindowSize(m_Window, (int*)&Width, (int*)&Height);
+
+
+
+		if (Width != m_Width || Height != m_Height)
+		{
+			m_Width = Width;
+			m_Height = Height;
+
+			glViewport(0, 0, m_Width, m_Height);
+
+			for (auto& i : FrameBuffer::s_FrameBuffers)
+			{
+				i->ResizeColorBuffer(m_Width, m_Height);
+			}
+		}
 	}
+
 
 	int Window::OpenWindow()
 	{

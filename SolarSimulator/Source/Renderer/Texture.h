@@ -33,6 +33,7 @@ namespace Simulator
 
 		inline uint32 GetWidth()  { return m_Width; }
 		inline uint32 GetHeight() { return m_Height; }
+		inline uint32 GetTexture() { return m_TextureID; }
 
 	public:
 		static uint32 GetTextureLimit();
@@ -51,9 +52,11 @@ namespace Simulator
 
 		 Texture2D() = default;
 		 Texture2D(std::string pPath, GLenum pMin = GL_LINEAR, GLenum pMag= GL_LINEAR);
+		 Texture2D(Texture2D&& Other);
 		~Texture2D();
 
 		int CreateTexture(std::string pFilePath, GLenum pMin = GL_LINEAR, GLenum pMag = GL_LINEAR, bool pFlipVerticaly=true, bool pKeepCache = false) override;
+		int CreateTexture(uint8* pData, uint32 pWidth, uint32 pHeight, GLenum pFormat = GL_RGB);
 		int CreateTextureFromMemory(uint8* pData, uint32 pLength, GLenum pMin = GL_LINEAR, GLenum pMag = GL_LINEAR, bool pFlipVerticaly = true);
 		int FreeTexture() override;
 
@@ -75,6 +78,7 @@ namespace Simulator
 
 		//This will use the same single texture to fill all 6 sides:
 		int CreateTexture(std::string pFilePath, GLenum pMin = GL_LINEAR, GLenum pMag = GL_LINEAR, bool pFlipVerticaly = true, bool pKeepCache = false) override;
+
 		// Gets 6 textures and makes a cube map
 		int CreateTexture(std::string pDirectoryPath, const std::vector<std::string>& pFiles, bool pKeepCache=false);
 

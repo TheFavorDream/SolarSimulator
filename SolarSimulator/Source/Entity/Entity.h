@@ -8,6 +8,7 @@
 #include "../Mesh/Mesh.h"
 #include "../Renderer/ShaderManager.h"
 #include "../Physics/Properties.h"
+#include "../Physics/Physics.h"
 
 namespace Simulator
 {

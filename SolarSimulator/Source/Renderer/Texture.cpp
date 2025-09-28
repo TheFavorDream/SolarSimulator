@@ -36,6 +36,15 @@ namespace Simulator
 		CreateTexture(pPath, pMin, pMag);
 	}
 
+	Texture2D::Texture2D(Texture2D && Other)
+	{
+		m_TextureID = Other.m_TextureID;
+		m_Width = Other.m_Width;
+		m_Height = Other.m_Height;
+
+		Other.m_TextureID = 0;
+	}
+
 	Texture2D::~Texture2D()
 	{
 		FreeTexture();
@@ -68,6 +77,24 @@ namespace Simulator
 			stbi_image_free(m_Data);
 			m_Data = NULL;
 		}
+
+		return 0;
+	}
+
+	int Texture2D::CreateTexture(uint8 * pData, uint32 pWidth, uint32 pHeight, GLenum pFormat)
+	{
+
+		m_Width = pWidth;
+		m_Height = pHeight;
+
+
+		glGenTextures(1, &m_TextureID);
+		glBindTexture(GL_TEXTURE_2D, m_TextureID);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		glTexImage2D(GL_TEXTURE_2D, 0,  pFormat, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, (void*)pData);
 
 		return 0;
 	}

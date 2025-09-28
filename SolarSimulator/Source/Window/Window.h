@@ -4,12 +4,16 @@
 #include "glew/include/GL/glew.h"
 #include "LogSys/Log.h"
 #include "glfw/glfw3.h"
+#include "../Renderer/FrameBuffer.h"
 #include <iostream>
 
 namespace Simulator
 {
 
 	void CursorCallBack(GLFWwindow* pWindow, double pX, double pY);
+	
+
+
 	class Window;
 
 	class Window

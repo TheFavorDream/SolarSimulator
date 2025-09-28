@@ -24,12 +24,17 @@ void main()
 
 #version 330 core
 
+out vec4 FragColor;
+
 in vec3 aNormals;
 in vec2 aTexCoords;
 uniform sampler2D Texture;	
-out vec4 FragColor;
+
+
+uniform float Intensity;
+
 void main ()
 {
-	FragColor = vec4(texture(Texture, aTexCoords));
-	//FragColor = vec4(aNormals, 1.0f);
+	vec3 Res = texture(Texture, aTexCoords).rgb*Intensity;
+	FragColor = vec4(Res, 1.0f);
 }

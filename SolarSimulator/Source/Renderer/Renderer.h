@@ -40,7 +40,11 @@ namespace Simulator
 		void SetClearColor(glm::vec3& pClearColor);
 		void SetClearColor(float pR, float pG, float pB);
 
+
+		void ClearDefFrameBuffer();
+
 		Entity* operator[](uint32 pKey);
+
 
 		inline const std::vector<Entity*> GetEntities() { return m_RenderQueue; }
 

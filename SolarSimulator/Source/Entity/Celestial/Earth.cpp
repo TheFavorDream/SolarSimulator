@@ -17,8 +17,10 @@ namespace Simulator
 
 
 
-		m_Properties.Position = glm::vec3(30.0f, 0.0f, 60.0f);
-		m_Properties.Volacity = glm::vec3(0.0f,  0.0f, -0.001f);
+		m_Properties.Position = glm::vec3(100.0f, 0.0f, 0.0f);
+		m_Properties.Mass = ScientificNotation(2.0f, 1); // 20 kg
+
+		Physics::Get()->PushProperty(&m_Properties);
 
 		ShaderManager::Self()->GetShader(m_Shader).SetUniformInt1("Texture", 0);
 		ShaderManager::Self()->GetShader(m_Shader).SetUniformInt1("TextureCloud", 1);
@@ -34,9 +36,12 @@ namespace Simulator
 	{
 
 
+		float Time = (float)glfwGetTime()*0.07f;
+		m_Properties.Position = glm::vec3(sin(Time)*Radius, 0.0f, cos(Time)*Radius);
+
 		m_Mesh.GetModelMatrix() = glm::mat4(1.0f);
-		m_Mesh.GetModelMatrix() = glm::rotate(m_Mesh.GetModelMatrix(), (float)glfwGetTime()*1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 		m_Mesh.GetModelMatrix() = glm::translate(m_Mesh.GetModelMatrix(), m_Properties.Position);
+		m_Mesh.GetModelMatrix() = glm::rotate(m_Mesh.GetModelMatrix(), (float)glfwGetTime()*1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 
 
 

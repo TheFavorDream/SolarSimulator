@@ -87,7 +87,7 @@
           "ID": "Linear",
           "PosX": 10.0,
           "PosY": 80.0,
-          "Value": 0.0
+          "Value": 0.01
         },
         {
           "Type": "InputF",
@@ -119,6 +119,21 @@
           "ID": "Show Grid",
           "PosX": 10.0,
           "PosY": 200.0,
+          "State": true
+        },
+        {
+          "Type": "SliderF",
+          "ID": "Gamma",
+          "PosX": 10.0,
+          "PosY": 230.0,
+          "Min": 0.2,
+          "Max": 3.0
+        },
+        {
+          "Type": "Checkbox",
+          "ID": "Bloom",
+          "PosX": 10.0,
+          "PosY": 260.0,
           "State": true
         }
 

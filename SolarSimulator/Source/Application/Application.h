@@ -17,6 +17,7 @@
 #include "Timer/Timer.h"
 #include  "Renderer/ShaderManager.h"
 #include "Physics/Physics.h"
+#include "Renderer/FrameBuffer.h"
 
 #include "Entity/Celestial/Sun.h"
 #include "Entity/Celestial/Mercury.h"
@@ -55,15 +56,29 @@ namespace Simulator
 		void UpdateUI();
 		void Render();
 
+		bool Bloom();
 
 	private:
 		WINDOW m_Window = NULL;
 		UI* m_UI = NULL;
 		Log m_Log;
 
+
+		
+		FrameBuffer m_Bloom[2];
+		FrameBuffer m_SceneBuffer;
+		FrameBuffer m_BlurFbo;
+
+		Mesh m_RenderingQuad;
+
+		uint32 m_BloomShader;
+		uint32 m_ScreenShader;
+		uint32 m_BlurShader;
+
 		Camera m_Camera;
 		SkyBox m_Skybox;
 		bool m_LockedFPS = false;
+		bool m_BloomEffect=true;
 
 	};
 };

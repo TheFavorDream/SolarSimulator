@@ -20,7 +20,7 @@ namespace Simulator
 
 	void Mercury::Render()
 	{
-		float Time = (float)glfwGetTime()*0.09f;
+		float Time = (float)glfwGetTime()*0.1f;
 		m_Position = glm::vec3(sin(Time)*Radius, 0.0f, cos(Time)*Radius);
 
 		m_Mesh.GetModelMatrix() = glm::mat4(1.0f);

@@ -63,5 +63,6 @@ void main ()
 	float att = 1.0 / (light.Constant + light.Linear*Dis + light.Quadratic*(Dis*Dis));
 
 	FragColor = vec4((Ambient+Diffuse)*att, 1.0f) * texture(Texture, aTexCoords);
+	
 
 }

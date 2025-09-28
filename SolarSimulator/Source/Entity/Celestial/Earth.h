@@ -3,6 +3,7 @@
 
 #include <string>
 
+
 namespace Simulator
 {
 
@@ -21,7 +22,7 @@ namespace Simulator
 		Texture2D m_EarthSpecMap;
 		Texture2D m_EarthNight;
 
-		float Radius = 30.0f;
+		float Radius = 40.0f;
 	};
 };
 

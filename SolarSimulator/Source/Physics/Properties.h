@@ -9,6 +9,16 @@ namespace Simulator
 {
 	struct ScientificNotation
 	{
+		ScientificNotation() = default;
+		ScientificNotation(float pCoefficient, int pExponent):
+			Coefficient(pCoefficient), Exponent(pExponent){		}
+
+
+		float GetValue() const
+		{
+			return Coefficient* pow(10.0f, Exponent);
+		}
+
 		float Coefficient = 0.0f;
 		int Exponent = 1;
 	};

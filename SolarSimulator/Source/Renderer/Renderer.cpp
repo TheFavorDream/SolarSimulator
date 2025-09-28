@@ -29,6 +29,9 @@ namespace Simulator
 		glEnable(GL_MULTISAMPLE);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_FRONT);
+		glFrontFace(GL_CW);
 	}
 
 	Renderer::~Renderer()
@@ -41,6 +44,13 @@ namespace Simulator
 		}
 	}
 
+	void Renderer::ClearDefFrameBuffer()
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glClearColor(m_ClearColor.x, m_ClearColor.y, m_ClearColor.z, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
+
 	Entity* Renderer::operator[](uint32 pKey)
 	{
 		return m_RenderQueue[pKey];
@@ -48,9 +58,6 @@ namespace Simulator
 
 	void Renderer::Draw()
 	{
-		glClearColor(m_ClearColor.x, m_ClearColor.y, m_ClearColor.z,  1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 		for (auto &i : m_RenderQueue)
 		{
 			i->Render();

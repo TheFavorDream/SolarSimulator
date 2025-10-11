@@ -17,7 +17,7 @@ namespace Simulator
 
 	private:
 		Texture2D m_Texture;
-		float Radius = 140.0f;
+		float Radius = 120.0f;
 	};
 };
 

@@ -232,7 +232,6 @@ namespace Simulator
 	{
 		Unbind();
 		glDeleteTextures(1, &m_TextureID);
-		Log::GetSelf()->SetInfo("Destructor of Texture Class Called. ID:%i", m_TextureID);
 		return 0;
 	}
 

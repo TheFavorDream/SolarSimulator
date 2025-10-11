@@ -24,7 +24,7 @@
           "ID": "Lock FPS to 60",
           "PosX": 10.0,
           "PosY": 20.0,
-          "State": false
+          "State": true 
         },
         {
           "Type": "Checkbox",
@@ -193,7 +193,36 @@
           "ID": "CameraPitch",
           "PosX": 10.0,
           "PosY": 140.0
+        },
+        {
+          "Type": "Checkbox",
+          "ID": "Cinematic Camera",
+          "PosX": 10.0,
+          "PosY": 170.0,
+          "State": false
+        },
+        {
+          "Type": "InputF",
+          "ID": "Speed",
+          "PosX": 10.0,
+          "PosY": 200.0,
+          "Value": 0.7
+        },
+        {
+          "Type": "InputF",
+          "ID": "Height",
+          "PosX": 10.0,
+          "PosY": 230.0,
+          "Value": 100.0
+        },
+        {
+          "Type": "InputF",
+          "ID": "Radius",
+          "PosX": 10.0,
+          "PosY": 260.0,
+          "Value": 150.0
         }
+
 
       ]
     }

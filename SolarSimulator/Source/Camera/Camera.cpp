@@ -24,10 +24,25 @@ namespace Simulator
 	void Camera::HandleCameraMovement()
 	{
 
+		if (m_CinamaticMovement)
+		{
+
+			float Height = UI::Self()->GetInputF("Camera", "Height")->GetValue();
+			m_OrbitRadius = UI::Self()->GetInputF("Camera", "Radius")->GetValue();
+
+			float Time = glfwGetTime()*UI::Self()->GetInputF("Camera", "Speed")->GetValue();
+			m_Position = glm::vec3(sin(Time)*m_OrbitRadius, Height, cos(Time)*m_OrbitRadius);
+
+			m_Front.x = -sin(Time);
+			m_Front.z = -cos(Time);
+
+			return;
+		}
+
 		if (UI::Self()->IsUsingKeyBoard())
 			return;
 
-		 
+
 		if (glfwGetKey(Window::GetWindowInstance()->GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
 		{
 			m_Position += m_Front * m_Speed * Timer::s_DeltaTime;
@@ -61,8 +76,12 @@ namespace Simulator
 
 	void Camera::HandleMouseMovement()
 	{
+		if (m_CinamaticMovement)
+			return;
+		
 		if (UI::Self()->IsUsingMouse())
 			return;
+
 
 		if (glfwGetMouseButton(Window::GetWindowInstance()->GetWindow(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 		{
@@ -148,6 +167,12 @@ namespace Simulator
 		UpdateCameraDirection();
 
 	}
+	void Camera::EnableCinamaticMovement(bool pEnable)
+	{
+		m_CinamaticMovement = pEnable;
+	}
+
+
 	void Camera::UpdateCameraDirection()
 	{
 		glm::vec3 Dir;

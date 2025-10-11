@@ -5,7 +5,7 @@ namespace Simulator
 	Application::Application(const int pWidth, const int pHeight, const char * pTitle)
 		: m_Camera(0.1f, 800.0f, 45.0f, 2.0f)
 	{
-		m_Log.SetLoggingLevel(LOG_LV2);
+		m_Log.SetLoggingLevel(LOG_LV3);
 		m_Log.SetInfo("Application Started");
 		m_Window = Window::CreateWindowObject(pWidth, pHeight, pTitle);
 		m_UI = UI::CreateUIInstance();
@@ -58,13 +58,13 @@ namespace Simulator
 		m_Camera.SetPitch(-38.0f);
 		m_Camera.SetYaw(272.0f);
 
-		Timer timer0;
+
 		m_UI->LoadUI(std::string(PATH) + "UI/UI.json");
-		Log::GetSelf()->SetInfo("UI Loading Took: %f ms", timer0.GetTime());
+
 
 		//Shader Loading:
 
-		Timer timer1;
+
 		std::string Path = std::string(PATH);
 		
 		uint32 S_Sun = ShaderManager::Self()->CreateNewShaderFromPath(Path + "Shaders/Sun.glsl");
@@ -76,7 +76,6 @@ namespace Simulator
 		m_BlurShader = ShaderManager::Self()->CreateNewShaderFromPath(Path + "Shaders/Blur.glsl");
 		m_BloomShader = ShaderManager::Self()->CreateNewShaderFromPath(Path + "Shaders/Bloom.glsl");
 
-		Log::GetSelf()->SetInfo("Shader Loading Took: %f ms", timer1.GetTime());
 
 		//Add Shaders to UI:
 
@@ -86,7 +85,6 @@ namespace Simulator
 		}
 
 
-		Timer timer2;
 		Renderer::Get()->NewEntity(new Grid(S_Grid, 50, 50, glm::vec3(-250, 0.0f, -250.0f), 10.0f));
 		Renderer::Get()->NewEntity(Sun::Construct(std::string(PATH) + "Models/Sphere.glb", S_Sun));
 		Renderer::Get()->NewEntity(new Mercury(std::string(PATH) + "Models/Sphere.glb", S_Basic));
@@ -97,7 +95,9 @@ namespace Simulator
 		Renderer::Get()->NewEntity(new Saturn(std::string(PATH) + "Models/Sphere.glb", std::string(PATH) + "Models/Ring.glb", S_Basic));
 		Renderer::Get()->NewEntity(new Uranus(std::string(PATH) + "Models/Sphere.glb", S_Basic));
 		Renderer::Get()->NewEntity(new Neptone(std::string(PATH) + "Models/Sphere.glb",S_Basic));
-		Log::GetSelf()->SetInfo("Model Loading Took: %f ms", timer2.GetTime());
+		//Renderer::Get()->NewEntity(new Entity(std::string(PATH) + "Models/Meteorite1.glb", S_Basic));
+
+
 		
 
 
@@ -128,9 +128,6 @@ namespace Simulator
 		ShaderManager::Self()->GetShader(m_ScreenShader).SetUniformInt1("BloomEffect", 1);
 
 		ShaderManager::Self()->GetShader(m_BloomShader).SetUniformInt1("Texture", 0);
-
-
-
 
 		m_UI->GetSliderF("Setter", "Gamma")->GetValue() = 1.0f;
 	}
@@ -171,8 +168,6 @@ namespace Simulator
 
 
 		ShaderManager::Self()->GetShader(m_ScreenShader).SetUniformFloat1("Gamma", m_UI->GetSliderF("Setter", "Gamma")->GetValue());
-
-		Physics::Get()->Update();
 	
 	}
 
@@ -201,6 +196,7 @@ namespace Simulator
 			m_UI->GetText("Camera", "CameraPosZ")->GetText() = "Camera Z:" + std::to_string(m_Camera.GetPosition().z);
 			m_UI->GetText("Camera", "CameraYaw")->GetText() = "Camera Yaw:" + std::to_string(m_Camera.GetYaw());
 			m_UI->GetText("Camera", "CameraPitch")->GetText() = "Camera Pitch:" + std::to_string(m_Camera.GetPitch());
+			m_Camera.EnableCinamaticMovement(m_UI->GetCheckbox("Camera", "Cinematic Camera")->GetState());
 		}
 
 

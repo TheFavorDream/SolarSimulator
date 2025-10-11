@@ -31,8 +31,13 @@ namespace Simulator
 		void SetPitch(float pPitch);
 
 		inline const glm::vec3& GetPosition() { return m_Position; }
+		inline const glm::vec3& GetDirection() { return m_Front; }
+
 		inline float GetYaw() { return m_Yaw; }
 		inline float GetPitch() { return m_Pitch; }
+
+		void EnableCinamaticMovement(bool pEnable);
+		
 
 	private:
 
@@ -55,6 +60,10 @@ namespace Simulator
 		bool m_IsFirstClick = true;
 		float m_Sensetivity = 0.25f;
 		double m_LastX, m_LastY;
+
+		//Cinamatic Movement 
+		bool m_CinamaticMovement = false;
+		float m_OrbitRadius = 120.0f;
 
 		glm::mat4 m_Projection;
 		glm::mat4 m_View;

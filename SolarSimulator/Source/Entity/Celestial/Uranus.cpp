@@ -19,11 +19,14 @@ namespace Simulator
 	void Uranus::Render()
 	{
 		float Time = (float)glfwGetTime()*0.03f;
-		m_Position = glm::vec3(sin(Time)*Radius, 0.0f, cos(Time)*Radius);
+		static float MoveX = rand(), MoveZ = MoveX;
+		m_Position = glm::vec3(sin(MoveX + Time)*Radius, 0.0f, cos(MoveZ + Time)*Radius);
 
 		m_Mesh.GetModelMatrix() = glm::mat4(1.0f);
-		m_Mesh.GetModelMatrix() = glm::scale(m_Mesh.GetModelMatrix(), glm::vec3(1.5f));
 		m_Mesh.GetModelMatrix() = glm::translate(m_Mesh.GetModelMatrix(), m_Position);
+		m_Mesh.GetModelMatrix() = glm::rotate(m_Mesh.GetModelMatrix(), (float)glfwGetTime()*1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		m_Mesh.GetModelMatrix() = glm::scale(m_Mesh.GetModelMatrix(), glm::vec3(1.5f));
+
 
 		m_Texture.Bind();
 		m_Mesh.Render(ShaderManager::Self()->GetShader(m_Shader));

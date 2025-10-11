@@ -18,9 +18,10 @@ namespace Simulator
 	public:
 
 		Entity();
+		Entity(std::string pModelPath, uint32 pShader);
 		virtual ~Entity();
 
-		virtual void Render() = 0;
+		virtual void Render();
 
 		inline glm::vec3& GetPosition() { return m_Position; }
 

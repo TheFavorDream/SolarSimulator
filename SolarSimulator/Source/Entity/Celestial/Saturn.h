@@ -21,7 +21,7 @@ namespace Simulator
 		Texture2D m_SphereTexture;
 		Texture2D m_RingTexture;
 
-		float Radius = 60.0f;
+		float Radius = 80.0f;
 	};
 };
 

@@ -37,7 +37,10 @@ namespace Simulator
 
 
 		float Time = (float)glfwGetTime()*0.07f;
-		m_Properties.Position = glm::vec3(sin(Time)*Radius, 0.0f, cos(Time)*Radius);
+		static float MoveX = rand() , MoveZ = MoveX;
+		m_Properties.Position = glm::vec3(sin(MoveX + Time)*Radius, 0.0f, cos(MoveZ + Time)*Radius);
+
+
 
 		m_Mesh.GetModelMatrix() = glm::mat4(1.0f);
 		m_Mesh.GetModelMatrix() = glm::translate(m_Mesh.GetModelMatrix(), m_Properties.Position);

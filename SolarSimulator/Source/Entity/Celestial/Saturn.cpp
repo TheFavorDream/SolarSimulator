@@ -24,15 +24,18 @@ namespace Simulator
 	{
 		float Time = (float)glfwGetTime()*0.04f;
 		m_Position = glm::vec3(sin(Time)*Radius, 0.0f, cos(Time)*Radius);
-		m_RingPos = glm::vec3(sin(Time)*Radius/2.0f, 0.0f, cos(Time)*Radius/2.0f);
+		m_RingPos = glm::vec3(sin(Time)*Radius, 0.0f, cos(Time)*Radius);
 
 		m_Mesh.GetModelMatrix() = glm::mat4(1.0f);
-		m_Mesh.GetModelMatrix() = glm::scale(m_Mesh.GetModelMatrix(), glm::vec3(2.0f));
 		m_Mesh.GetModelMatrix() = glm::translate(m_Mesh.GetModelMatrix(), m_Position);
+		m_Mesh.GetModelMatrix() = glm::rotate(m_Mesh.GetModelMatrix(), (float)glfwGetTime()*1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		m_Mesh.GetModelMatrix() = glm::scale(m_Mesh.GetModelMatrix(), glm::vec3(2.0f));
+
 
 		m_Ring.GetModelMatrix() = glm::mat4(1.0f);
-		m_Ring.GetModelMatrix() = glm::scale(m_Ring.GetModelMatrix(), glm::vec3(4.0f, 0.1f, 4.0f));
 		m_Ring.GetModelMatrix() = glm::translate(m_Ring.GetModelMatrix(), m_RingPos);
+		m_Ring.GetModelMatrix() = glm::rotate(m_Ring.GetModelMatrix(), glm::radians(40.0f), glm::vec3(0.0f, 0.0f, 0.8f));
+		m_Ring.GetModelMatrix() = glm::scale(m_Ring.GetModelMatrix(), glm::vec3(4.0f, 0.1f, 4.0f));
 
 		m_SphereTexture.Bind();
 		m_Mesh.Render(ShaderManager::Self()->GetShader(m_Shader) );
